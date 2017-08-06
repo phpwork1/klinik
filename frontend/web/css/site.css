@@ -1,0 +1,210 @@
+html,
+body {
+    height: 100%;
+    /*padding-top: 30px;*/
+}
+
+.wrap {
+    min-height: 100%;
+    height: auto;
+    margin: 0 auto -50px;
+    padding: 0 0 40px;
+}
+
+.wrap > .container {
+    padding: 70px 15px 20px;
+}
+
+.footer {
+    height: 40px;
+    background-color: #f5f5f5;
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+}
+
+.jumbotron {
+    text-align: center;
+    background-color: transparent;
+}
+
+.jumbotron .btn {
+    font-size: 21px;
+    padding: 14px 24px;
+}
+
+.not-set {
+    color: #c55;
+    font-style: italic;
+}
+
+/* add sorting icons to gridview sort links */
+a.asc:after, a.desc:after {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    padding-left: 5px;
+}
+
+a.asc:after {
+    content: /*"\e113"*/ "\e151";
+}
+
+a.desc:after {
+    content: /*"\e114"*/ "\e152";
+}
+
+.sort-numerical a.asc:after {
+    content: "\e153";
+}
+
+.sort-numerical a.desc:after {
+    content: "\e154";
+}
+
+.sort-ordinal a.asc:after {
+    content: "\e155";
+}
+
+.sort-ordinal a.desc:after {
+    content: "\e156";
+}
+
+.grid-view th {
+    white-space: nowrap;
+}
+
+.hint-block {
+    display: block;
+    margin-top: 5px;
+    color: #999;
+}
+
+.error-summary {
+    color: #a94442;
+    background: #fdf7f7;
+    border-left: 3px solid #eed3d7;
+    padding: 10px 20px;
+    margin: 0 0 15px 0;
+}
+
+.table-vcenter > tbody > tr > td {
+    vertical-align: middle!important;
+}
+/*.table .form-control {
+    display: table-cell;
+    width: auto;
+}*/
+
+.detail-view th {
+    width: 30%;
+}
+.detail-view td {
+    width: 70%;
+}
+
+.navbar {
+    margin-bottom: 12px;
+}
+.navbar-default {
+    background: #eee;
+    border-bottom: 1px solid #ddd;
+}
+.table > thead > tr.filters > td {
+    padding: 2px;
+}
+.table > thead > tr.filters > td .form-control {
+    border-radius: 0px;
+    /*border: 1px solid #aaa;*/
+    /*height: 30px;*/
+}
+.table > tfoot > tr.strong {
+    font-weight: bold;
+}
+.table > tfoot > tr {
+    background-color: #f8f8e8;
+    font-weight: bold;
+}
+
+.url {
+    padding: 2px;
+}
+.url-success {
+    font-weight: bold;
+    color: #0a0;
+}
+.url-danger {
+    font-weight: bold;
+    color:#d00;
+}
+.url-warning {
+    font-weight: bold;
+    color:#f80;
+}
+.url-primary {
+    font-weight: bold;
+    color: #269;
+}
+.url-info {
+    font-weight: bold;
+    color:#08f;
+}
+.url-mutation {
+    font-weight: bold;
+    color:#993;
+}
+.url-slip {
+    font-weight: bold;
+    color:#993;
+}
+.url-bill {
+    font-weight: bold;
+    color:#0a0;
+}
+.url-ok2, .url-mutation {
+    color:#d0d;
+}
+.url-ok {
+    font-weight: bold;
+    color:#888;
+}
+.url-del {
+    text-decoration: line-through;
+}
+
+/*.table-striped > tbody > tr:nth-of-type(2n+1) {*/
+/*background-color: #eee;*/
+/*}*/
+
+.panel-body {
+    padding-bottom: 0px;
+}
+
+@media print {
+    a[href]:after {
+        content: none;
+    }
+    .filters, .pull-left, .pull-right {
+        display: none;
+    }
+    td .no-wrap {
+        display: none;
+    }
+}
+
+
+.col-md-1, .col-md-2 {
+    min-width: 80px;
+}
+.box-tools > .pagination {
+    margin:0;
+}
+.box-header>.box-tools {
+    vertical-align: baseline;
+    position: absolute;
+    right: 10px;
+    top: 5px;
+}

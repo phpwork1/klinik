@@ -1,0 +1,28 @@
+@media print {
+    a[href]:after {
+        content: none;
+    }
+    .pull-left, 
+    .pull-right,
+    footer.footer,
+    .filters, .no-print {
+        display: none;
+    }
+    pre {
+        border: 0;
+    }
+}
+
+@page {
+    size: 240mm 140mm;
+    margin: 0mm 12mm;
+}
+
+.page, .page-1st {
+    padding: 12px 0px;
+    font-family: monospace;
+    page-break-after: avoid;
+}
+.page {
+    page-break-before: always;    
+}

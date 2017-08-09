@@ -11,13 +11,13 @@ if (empty(Yii::$app->session->get('setting'))) {
     Yii::$app->session->set('setting', $parameter);
 }
 $parameter = Yii::$app->session->get('setting');
-$brandName = empty($parameter->app_name) ? 'FillBlank' : $parameter->app_name;
+//$brandName = empty($parameter->app_name) ? 'FillBlank' : $parameter->app_name;
 
 $person = \backend\models\Person::findOne(Yii::$app->user->identity->person_id);
 $personName = explode(' ', trim($person->name))[0];
 
 //$mail = \backend\models\Mail::findAll(['read' => '1'])
-//$brandName = common\components\helpers\AppConst::APP_NAME;
+$brandName = common\components\helpers\AppConst::APP_NAME_PHARMACY;
 ?>
 
 <header class="main-header">

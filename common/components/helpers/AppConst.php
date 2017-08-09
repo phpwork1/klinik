@@ -9,7 +9,15 @@ use yii\base\InvalidConfigException;
 class AppConst extends Component
 {
 
-    const APP_NAME = 'PT. ANEKA';
+    //KLINIK
+    const APP_NAME_CLINIC = 'KLINIK';
+
+
+    //APOTIK
+    const APP_NAME_PHARMACY = 'APOTIK';
+
+
+    const APP_NAME = 'Klinik';
     const APP_ADDRESS = 'Jl. Kepulan Asap no.113';
     const APP_CITY = 'Jambi';
     const APP_PROVINCE = 'Jambi';

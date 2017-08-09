@@ -5,6 +5,8 @@ use dmstr\widgets\Alert;
 
 use backend\models\Parameter;
 
+/* @var $content string */
+
 ?>
 <div class="content-wrapper">
     <section class="content-header">

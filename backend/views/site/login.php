@@ -6,7 +6,7 @@ use yii\bootstrap\ActiveForm;
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model \common\models\LoginForm */
 
-$this->title = 'Sign In';
+$this->title = 'Praktik Dokter & Klinik Kecantikan';
 
 $fieldOptions1 = [
     'options' => ['class' => 'form-group has-feedback'],
@@ -21,26 +21,24 @@ $fieldOptions2 = [
 
 <div class="login-box">
     <div class="login-logo">
-        <a href="#"><strong>EV</strong>E<strong>N</strong>T ORGANI<strong>ZER</strong></a>
+        <a href="#"><span class="text-primary"><strong>Praktik Dokter & Klinik</strong></span></a>
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body">
         <?= \common\widgets\Alert::widget() ?>
-        <p class="login-box-msg">Silakan Sign in (Masuk)</p>
 
         <?php $form = ActiveForm::begin(['id' => 'login-form', 'enableClientValidation' => false]); ?>
 
         <?= $form
-            ->field($model, 'email', $fieldOptions1)
+            ->field($model, 'username', $fieldOptions1)
             ->label(false)
-            ->textInput(['placeholder' => $model->getAttributeLabel('email')]) ?>
+            ->textInput(['placeholder' => $model->getAttributeLabel('username')]) ?>
 
         <?= $form
             ->field($model, 'password', $fieldOptions2)
             ->label(false)
             ->passwordInput(['placeholder' => $model->getAttributeLabel('password')]) ?>
 
-        <?= $form->field($model, 'captcha')->widget(\yii\captcha\Captcha::className()) ?>
 
         <div class="row">
             <div class="col-xs-8">

@@ -1,9 +1,8 @@
 <?php
-use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 
-$this->title = 'Beranda';
+$this->title = 'Apotik';
 ?>
 <div class="site-index row">
     <div class="col-md-4">

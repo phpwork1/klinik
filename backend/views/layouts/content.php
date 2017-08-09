@@ -1,44 +1,23 @@
 <?php
-use yii\widgets\Breadcrumbs;
 use dmstr\widgets\Alert;
 //use common\widgets\Alert;
-
-use backend\models\Parameter;
+/* @var $content string */
 
 ?>
+
+
 <div class="content-wrapper">
+
+    <!-- Content Header (Page header) -->
     <section class="content-header">
-        <div class="pull-left">
-            <?=
-            Breadcrumbs::widget([
-                'homeLink' => ['label' => '<i class="glyphicon glyphicon-home"></i>', 'encode' => false, 'url' => ['/site/index']],
-                'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-            ]) ?>
-        </div>
-
-        <div class="pull-right">
-            <?php if (isset($this->blocks['content-header'])) { ?>
-                <h1><?= $this->blocks['content-header'] ?></h1>
-            <?php } else { ?>
-                <div class="btn-group">
-                    <?php
-                    if (isset($this->params['buttons'])):
-                        foreach ($this->params['buttons'] as $button):
-                            echo $button . '&nbsp;';
-                        endforeach;
-                    endif;
-                    ?>
-                </div>
-                <div class="btn-group">
-                    <?php
-                    if (isset($this->params['export'])):
-                        echo $this->params['export'];
-                    endif;
-                    ?>
-                </div>
-            <?php } ?>
-        </div>
-
+        <h1>
+            Dashboard
+            <small>Version 1.0</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Dashboard</li>
+        </ol>
         <div class="clearfix"></div>
     </section>
 

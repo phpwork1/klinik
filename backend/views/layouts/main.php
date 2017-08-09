@@ -12,8 +12,8 @@ if (empty(Yii::$app->session->get('setting'))) {
     Yii::$app->session->set('setting', $parameter);
 }
 $parameter = Yii::$app->session->get('setting');
-$brandName = empty($parameter->app_name) ? 'FillBlank' : $parameter->app_name;
-//$brandName = common\components\helpers\AppConst::APP_NAME;
+//$brandName = empty($parameter->app_name) ? 'FillBlank' : $parameter->app_name;
+$brandName = common\components\helpers\AppConst::APP_NAME_CLINIC;
 
 if (Yii::$app->controller->action->id === 'login') {
     /**
@@ -46,7 +46,7 @@ if (Yii::$app->controller->action->id === 'login') {
         <title><?= Html::encode($this->title) ?></title>
         <?php $this->head() ?>
     </head>
-    <body class="hold-transition skin-blue sidebar-mini">
+    <body class="hold-transition skin-blue sidebar-mini layout-top-nav">
     <?php $this->beginBody() ?>
     <div class="wrapper">
 
@@ -55,11 +55,7 @@ if (Yii::$app->controller->action->id === 'login') {
             ['directoryAsset' => $directoryAsset]
         ) ?>
 
-        <?= $this->render(
-            'left.php',
-            ['directoryAsset' => $directoryAsset]
-        )
-        ?>
+        <?php //echo $this->render('left.php',['directoryAsset' => $directoryAsset]) ?>
 
         <?= $this->render(
             'content.php',

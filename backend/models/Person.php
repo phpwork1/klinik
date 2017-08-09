@@ -243,13 +243,6 @@ class Person extends \yii\db\ActiveRecord
         return $this->hasOne(User::className(), ['id' => 'deleted_by']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getEvents()
-    {
-        return $this->hasMany(EventParticipant::className(), ['person_id' => 'id']);
-    }
 
     public function getPicture()
     {

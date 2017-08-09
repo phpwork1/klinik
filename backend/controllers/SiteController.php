@@ -87,6 +87,7 @@ class SiteController extends Controller {
         ];
     }
 
+
     /**
      * @inheritdoc
      */
@@ -94,9 +95,6 @@ class SiteController extends Controller {
         return [
             'error' => [
                 'class' => 'yii\web\ErrorAction',
-            ],
-            'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction'
             ],
         ];
     }
@@ -138,7 +136,7 @@ class SiteController extends Controller {
                     Yii::$app->session->setFlash('danger', 'This is admin section. Participant cannot login');
                     $this->redirect(['login']);
                 } else {
-                    Yii::$app->session->setFlash('success', 'Welcome back.');
+                    Yii::$app->session->setFlash('success', sprintf("%s %s",'Welcome back. ', Yii::$app->user->identity->getRoleName()));
                     return $this->goBack();
                 }
             } else {

@@ -22,6 +22,18 @@ return [
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
+            'identityCookie' => [
+                'name' => '_frontendUser', // unique for backend
+            ]
+        ],
+        'session' => [
+            'name' => 'PHPFRONTSESSID',
+            'savePath' => sys_get_temp_dir(),
+        ],
+        'request' => [
+            // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
+            'cookieValidationKey' => '862CmZLFx3LXR9hJJJjh',
+            'csrfParam' => '_frontendCSRF',
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

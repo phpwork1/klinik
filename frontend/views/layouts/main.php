@@ -12,8 +12,8 @@ if (empty(Yii::$app->session->get('setting'))) {
     Yii::$app->session->set('setting', $parameter);
 }
 $parameter = Yii::$app->session->get('setting');
-$brandName = empty($parameter->app_name) ? 'FillBlank' : $parameter->app_name;
-//$brandName = common\components\helpers\AppConst::APP_NAME;
+//$brandName = empty($parameter->app_name) ? 'FillBlank' : $parameter->app_name;
+$brandName = common\components\helpers\AppConst::APP_NAME_PHARMACY;
 
 if (Yii::$app->controller->action->id === 'login') {
     /**

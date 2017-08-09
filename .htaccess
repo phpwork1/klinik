@@ -24,5 +24,6 @@
     RewriteCond %{REQUEST_URI} !^/preview
     RewriteCond %{REQUEST_FILENAME} !-f [OR]
     RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^.*$ frontend/web/index.php
+    RewriteRule ^backend.*$ backend/web/index.php
+    RewriteRule ^frontend.*$ frontend/web/index.php
 </IfModule>

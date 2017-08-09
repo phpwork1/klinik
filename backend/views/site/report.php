@@ -27,7 +27,7 @@ use yii\helpers\Html;
     </div>
     <div class="col-sm-2">
         <legend>Pendapatan</legend>
-        <!--<p><? = Html::a('Penjualan Tunai Harian', ['/cash-sale/report'], ['class' => 'text-info']) ?></p>-->
+        <!--<p><?= Html::a('Penjualan Tunai Harian', ['/cash-sale/report'], ['class' => 'text-info']) ?></p>-->
         <p><?= Html::a('Penjualan', ['/sale-order/report'], ['class' => 'text-info']) ?></p>
         <p><?= Html::a('Rincian Penjualan', ['/sale-order-detail/report'], ['class' => 'text-info']) ?></p>
         <p><?= Html::a('Pelunasan Penjualan', ['/sale-payment/report'], ['class' => 'text-info']) ?></p>
@@ -36,7 +36,7 @@ use yii\helpers\Html;
         <p><?= Html::a('Rincian Retur Penjualan', ['/sale-return-detail/report'], ['class' => 'text-info']) ?></p>
         <hr>
         <p><?= Html::a('Pendapatan lain-lain', ['/income/report'], ['class' => 'text-info']) ?></p>
-        <!--<p><? = Html::a('Pendapatan Kotor', ['/income/report'], ['class' => 'text-info']) ?></p>-->
+        <!--<p><?= Html::a('Pendapatan Kotor', ['/income/report'], ['class' => 'text-info']) ?></p>-->
     </div>
     <div class="col-sm-2">
         <legend>Partner</legend>
@@ -50,7 +50,7 @@ use yii\helpers\Html;
     </div>
     <div class="col-sm-2">
         <legend>Akun</legend>
-        <!--<p><? = Html::a('Ledger', ['/account/ledger'], ['class' => 'text-info']) ?></p>-->
+        <!--<p><?= Html::a('Ledger', ['/account/ledger'], ['class' => 'text-info']) ?></p>-->
         <p><?= Html::a('Akun', ['/account/report'], ['class' => 'text-info']) ?></p>
         <p><?= Html::a('Kategori Akun', ['/account-category/report'], ['class' => 'text-info']) ?></p>
         <p><?= Html::a('Grup Akun', ['/account-group/report'], ['class' => 'text-info']) ?></p>

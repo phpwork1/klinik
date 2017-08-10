@@ -12,9 +12,9 @@ $p['UserSearch[gtrole]'] = 1000;
 if (isset($params['ltrole'])) {
     $p['UserSearch[ltrole]'] = 999;
 } else if (isset($params['gtrole'])) {
-    $p['UserSearch[gtrole]'] = 1000;
+    $p['UserSearch[gtrole]'] = Yii::$app->user->identity->role;
 } else {
-    $p['UserSearch[gtrole]'] = 1000;
+    $p['UserSearch[gtrole]'] = Yii::$app->user->identity->role;
 }
 $this->title = Yii::t('app', 'Users');
 $this->params['breadcrumbs'][] = $this->title;

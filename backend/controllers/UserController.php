@@ -43,6 +43,18 @@ class UserController extends Controller
      * Lists all User models.
      * @return mixed
      */
+
+    public function beforeAction($action)
+    {
+        //Only Admin can access User Page
+        if(Yii::$app->user->identity->role != User::ROLE_ADMINISTRATOR) {
+            $this->goBack();
+            return parent::beforeAction($action);
+        }
+
+        return parent::beforeAction($action);
+    }
+
     public function actionReport()
     {
         $searchModel = new UserSearch();
@@ -87,8 +99,8 @@ class UserController extends Controller
     public function actionCreate()
     {
         $model = new User();
-
         if ($model->load(Yii::$app->request->post()) && $model->signup()) {
+
             Yii::$app->session->setFlash('success', 'Data user berhasil disimpan.');
             return $this->redirect(['index', 'UserSearch[username]' => $model->username]);
         } else {
@@ -134,14 +146,15 @@ class UserController extends Controller
 
         // CHECK THIS USER ROLE. IF < TARGET ROLE, DENIED
         if (Yii::$app->user->identity->role <= $model->role) {
-            $model->delete();
+            $this->findModel($id)->delete();
+            Yii::$app->session->setFlash('success', 'Data user berhasil dihapus.');
+            return $this->redirect(['index', 'UserSearch[gtrole]' => Yii::$app->user->identity->role]);
         } else {
             throw new \yii\base\NotSupportedException('The requested user have higher role than you.');
         }
 
-        $this->findModel($id)->delete();
-        Yii::$app->session->setFlash('success', 'Data user berhasil dihapus.');
-        return $this->redirect(['index']);
+
+
     }
 
     public function actionToggleStatus($id)

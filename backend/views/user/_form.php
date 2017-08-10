@@ -16,11 +16,16 @@ use yii\widgets\ActiveForm;
         <div class="col-sm-3">
             <?= $form->field($model, 'person_id')->dropDownList(backend\models\Person::map(), ['autofocus' => 'autofocus']) ?>
         </div>
+
         <div class="col-sm-3">
             <?= $form->field($model, 'role')->dropDownList($model->roles) ?>
         </div>
     </div>
     <div class="row">
+        <div class="col-sm-3">
+            <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
+        </div>
+
         <div class="col-sm-3">
             <?= $form->field($model, 'password')->passwordInput(['maxlength' => true]) ?>
         </div>

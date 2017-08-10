@@ -44,37 +44,35 @@ $brandName = common\components\helpers\AppConst::APP_NAME_CLINIC;
                     <?php if (Yii::$app->user->identity->role == User::ROLE_ADMINISTRATOR) { ?>
 
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Master <span
-                                        class="caret"></span></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Master <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="?show=agama"><i class="fa fa-circle-o"></i> Agama</a></li>
-                                <li><a href="?show=pekerjaan"><i class="fa fa-circle-o"></i> Pekerjaan</a></li>
+
+                                <li><?= Html::a('<i class="fa fa-circle-o"></i> ' . "Agama", ['/religion']); ?></li>
+                                <li><?= Html::a('<i class="fa fa-circle-o"></i> ' . "Pekerjaan", ['/job']); ?></li>
                                 <li class="divider"></li>
-                                <li><a href="?show=layanan&jenis=1"><i class="fa fa-circle-o"></i> Tindakan Praktik</a>
-                                </li>
-                                <li><a href="?show=layanan&jenis=2"><i class="fa fa-circle-o"></i> Tindakan Klinik
-                                        Kecantikan</a></li>
+                                <li><?= Html::a('<i class="fa fa-circle-o"></i> ' . "Tindakan Praktik", ['/common-upload']); ?></li>
+                                <li><?= Html::a('<i class="fa fa-circle-o"></i> ' . "Tindakan Klinik Kecantikan", ['/common-upload']); ?></li>
                                 <li class="divider"></li>
                                 <li><a href="?show=master-diagnosis"><i class="fa fa-circle-o"></i> Tabel Diagnosis</a>
-                                </li>
+                                <li><?= Html::a('<i class="fa fa-circle-o"></i> ' . "Tabel Diagnosis", ['/common-upload']); ?></li>
                             </ul>
                         </li>
 
                     <?php } ?>
 
                     <li class="dropdown">
-                        <a href="?show=pasien">Pasien </a>
+                        <?= Html::a("Pasien", ['/common-upload']); ?>
                     </li>
 
                     <li class="dropdown">
-                        <a href="?show=registrasi">Registrasi </a>
+                        <?= Html::a("Registrasi", ['/common-upload']); ?>
                     </li>
 
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Laporan <span
-                                    class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Laporan <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="?show=laporan-pasien-berobat"><i class="fa fa-circle-o"></i> Pasien Berobat</a>
+                            <li>
+                                <?= Html::a('<i class="fa fa-circle-o"></i> ' . "Pasien Berobat", ['/common-upload']); ?>
                             </li>
                         </ul>
                     </li>
@@ -119,6 +117,9 @@ $brandName = common\components\helpers\AppConst::APP_NAME_CLINIC;
                             <li class="user-footer">
                                 <div class="pull-left">
                                     <?= Html::a(Yii::t('app', 'Profile'), ['/person/view', 'id' => $person->id], ['class' => 'btn btn-default btn-flat']) ?>
+                                    <?php if (Yii::$app->user->identity->role == User::ROLE_ADMINISTRATOR) {
+                                        echo Html::a(Yii::t('app', 'User Page'), ['/user/index', 'UserSearch[gtrole]' => Yii::$app->user->identity->role], ['class' => 'btn btn-default btn-flat']);
+                                    } ?>
                                 </div>
                                 <div class="pull-right">
                                     <?= Html::a(

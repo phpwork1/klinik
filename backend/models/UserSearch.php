@@ -21,7 +21,7 @@ class UserSearch extends User
     public function rules()
     {
         return [
-            [['id', 'person_id', 'branch_id', 'role', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['id', 'person_id', 'role', 'status', 'created_at', 'updated_at'], 'integer'],
             [['username', 'auth_key', 'password_hash', 'password_reset_token', 'email', 'ltrole', 'gtrole'], 'safe'],
         ];
     }
@@ -46,7 +46,7 @@ class UserSearch extends User
     {
         $query = User::find()->joinWith(['person']);
         $sort = ['defaultOrder' => ['role' => SORT_ASC, 'username' => SORT_ASC]];
-        $pagination = ['pageSize' => '20'];
+        $pagination = ['pageSize' => '10'];
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -70,7 +70,6 @@ class UserSearch extends User
         $query->andFilterWhere([
             'user.id' => $this->id,
             'user.person_id' => $this->person_id,
-            'user.branch_id' => $this->branch_id,
             'user.role' => $this->role,
             'user.status' => $this->status,
             'user.created_at' => $this->created_at,

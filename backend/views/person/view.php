@@ -127,6 +127,7 @@ $this->params['buttons'][] = Html::a('<i class="glyphicon glyphicon-remove"></i>
                 <td><?= $model->created_at ?>
                     by <?= empty($model->created_by) ? '-' : $model->createdBy->username ?></td>
             </tr>
+
             <?php if (!empty($model->updated_by)): ?>
                 <tr>
                     <th><?= $model->getAttributeLabel('updated_at') ?></th>

@@ -7,12 +7,12 @@ use yii\grid\GridView;
 /* @var $searchModel backend\models\ReligionSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Religions');
+$this->title = Yii::t('app', 'Agama');
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['buttons'] = [
     Html::a('<i class="glyphicon glyphicon-plus"></i>', ['create'], [
         'type'=>'button',
-        'title'=>Yii::t('app', 'Add Religions'),
+        'title'=>Yii::t('app', 'Tambah Agama'),
         'class'=>'btn btn-success'
     ]) . ' '.
     Html::a('<i class="glyphicon glyphicon-repeat"></i>', ['index'], [
@@ -24,8 +24,7 @@ $this->params['buttons'] = [
 
 $gridColumns = [
 ['class' => 'yii\grid\SerialColumn'],
-    'id',
-    'religion_name',
+    'r_name',
     ['class' => 'yii\grid\ActionColumn',
         'header' => 'Actions',
         'template' => '{view} {update} {delete}',

@@ -2,13 +2,16 @@
 
 namespace common\models;
 
+use yii\helpers\Url;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
-use yii\db\Expression;
 use yii\helpers\ArrayHelper;
 use yii\web\IdentityInterface;
+use yii\helpers\Html;
+use backend\models\Person;
+use yii\db\Exception;
 
 /**
  * User model
@@ -28,7 +31,7 @@ use yii\web\IdentityInterface;
  * @property integer $branch_id
  * @property User[] $map
  * 
- * @property Person[] $person
+ * @property Person $person
  */
 class User extends ActiveRecord implements IdentityInterface {
 
@@ -137,9 +140,6 @@ class User extends ActiveRecord implements IdentityInterface {
         ];
     }
 
-    /**
-     * @return \yii\behaviors\TimestampBehavior
-     */
     public function behaviors() {
         return [
             'timestamp' => [
@@ -148,14 +148,14 @@ class User extends ActiveRecord implements IdentityInterface {
                     ActiveRecord::EVENT_BEFORE_INSERT => ['created_at'],
                     ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
                 ],
-                'value' => new Expression('NOW()'),
+                'value' => time(),
             ],
         ];
     }
     /**
      * Return array of key => value for dropdown menu
      * @param string $value default to 'name'
-     * @return \yii\db\ActiveQuery
+     * @return array
      */
     public static function map($value = 'username') {
         $value = empty($value) ? 'username' : $value;
@@ -291,26 +291,7 @@ class User extends ActiveRecord implements IdentityInterface {
     }
 
     /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getPerson() {
-        if ($this->role < User::ROLE_PARTICIPANT) {
-            return $this->hasOne(Person::className(), ['id' => 'person_id']);
-        } else if ($this->role == User::ROLE_PARTICIPANT) {
-            return $this->hasOne(Customer::className(), ['id' => 'person_id']);
-        }
-    }
-
-    public function getPersonList() {
-        if ($this->role < User::ROLE_PARTICIPANT) {
-            return Person::map();
-        } else if ($this->role == User::ROLE_PARTICIPANT) {
-            return Customer::map();
-        }
-    }
-
-    /**
-     * @return \yii\helpers\Url
+     * @return string
      */
     public function getPersonLink() {
         if (!empty($this->person->name)) {
@@ -335,7 +316,8 @@ class User extends ActiveRecord implements IdentityInterface {
      * @throws \Exception
      * @internal param Yii $array ::$app->request->post() POST data
      */
-    public function signup() {
+    public function signup()
+    {
         $transaction = User::getDb()->beginTransaction();
         $clean[] = TRUE;
 
@@ -353,25 +335,24 @@ class User extends ActiveRecord implements IdentityInterface {
                 //$role = $auth->getRole($this->role);
                 //$auth->assign($role, $user->getId());
             } else {
-                d($this->errors);exit;
+                d($this->errors);
+                exit;
             }
 
             if (!in_array(FALSE, $clean)) {
                 $transaction->commit();
-                return TRUE;
+                return null;
             } else {
                 foreach ($this->errors as $attr => $errors) {
                     $error = join('<br />', $errors);
                     Yii::$app->session->addFlash('danger', Yii::t('app', $error));
                 }
-                return FALSE;
+                return null;
             }
         } catch (Exception $ex) {
             $transaction->rollBack();
             throw($ex);
         }
-
-        return null;
     }
 
 }

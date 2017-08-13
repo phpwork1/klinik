@@ -2,6 +2,7 @@
 
 namespace backend\models;
 
+use common\components\helpers\AppConst;
 use Yii;
 use yii\helpers\ArrayHelper;
 //use yii\db\Expression;
@@ -12,7 +13,7 @@ use yii\helpers\ArrayHelper;
  * This is the model class for table "job".
  *
  * @property integer $id
- * @property string $job_name
+ * @property string $j_name
  * @property Job[] $map
  *
  * @property Patient[] $patients
@@ -33,8 +34,8 @@ class Job extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['job_name'], 'required'],
-            [['job_name'], 'string', 'max' => 50],
+            [['j_name'], 'required', 'message' => AppConst::VALIDATE_REQUIRED],
+            [['j_name'], 'string', 'max' => 50],
         ];
     }
 
@@ -45,8 +46,12 @@ class Job extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'job_name' => Yii::t('app', 'Job Name'),
+            'j_name' => Yii::t('app', 'Nama Pekerjaan'),
         ];
+    }
+
+    public static function getJobName($id){
+        return Job::find()->where(['id' => $id])->one()->j_name;
     }
 
     /**
@@ -81,9 +86,9 @@ class Job extends \yii\db\ActiveRecord
     * Return model objects
     * @param string $value default to 'name'
     * @param string $conditions default to null
-    * @return \yii\db\ActiveQuery
+    * @return \yii\db\ActiveRecord[]
     */
-    public static function getAll($value = 'name', $conditions = null) {
+    public static function getAll($value = 'id', $conditions = null) {
         $query = Job::find()->orderBy([$value => SORT_ASC]);
         if (!empty($conditions)) {
             $query->andWhere($conditions);
@@ -96,15 +101,16 @@ class Job extends \yii\db\ActiveRecord
     * @param string $key default to 'id'
     * @param string $value default to 'name'
     * @param string $conditions default to null
-    * @return Array
+    * @return array
     */
-    public static function map($key = 'id', $value = 'name', $conditions = null) {
+    public static function map($key = 'id', $value = 'j_name', $conditions = null) {
         $key = empty($key) ? 'id' : $key;
         $value = empty($value) ? 'name' : $value;
         $map = ArrayHelper::map(self::getAll($value, $conditions), $key, $value);
         if (empty($map)) {
             Yii::$app->session->setFlash('danger', Yii::t('app', 'Job database still empty. Please add the data as soon as possible.'));
         }
+        $map = array("" => '--Silahkan Pilih--') + $map;
         return $map;
     }
 

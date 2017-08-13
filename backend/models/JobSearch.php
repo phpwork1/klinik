@@ -2,10 +2,8 @@
 
 namespace backend\models;
 
-use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\models\Job;
 
 /**
  * JobSearch represents the model behind the search form about `backend\models\Job`.
@@ -21,7 +19,7 @@ class JobSearch extends Job
     {
         return [
             [['id'], 'integer'],
-            [['job_name'], 'safe'],
+            [['j_name'], 'safe'],
         ];
     }
 
@@ -55,8 +53,8 @@ class JobSearch extends Job
     public function search($params)
     {
         $query = Job::find();
-        $sort = ['defaultOrder' => ['job_name' => SORT_ASC]];
-        $pagination = ['pageSize' => 20];
+        $sort = ['defaultOrder' => ['j_name' => SORT_ASC]];
+        $pagination = ['pageSize' => 10];
 
         // add conditions that should always apply here
 
@@ -88,7 +86,7 @@ class JobSearch extends Job
             'job.id' => $this->id,
         ]);
 
-        $query->andFilterWhere(['like', 'job.job_name', $this->job_name]);
+        $query->andFilterWhere(['like', 'job.j_name', $this->j_name]);
 
         return (!empty($this->sum)) ? $query->sum($this->sum['field']) : $dataProvider;
     }

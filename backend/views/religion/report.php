@@ -21,7 +21,7 @@ $this->params['buttons'] = [
 $gridColumns = [
     ['class' => 'yii\grid\SerialColumn'],
     'id',
-    'religion_name',
+    'r_name',
     ['class' => 'yii\grid\ActionColumn',
         'header' => 'Actions',
         'template' => '{view}',

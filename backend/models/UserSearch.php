@@ -2,18 +2,15 @@
 
 namespace backend\models;
 
-use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\models\User;
 
 /**
  * UserSearch represents the model behind the search form about `backend\models\User`.
  */
 class UserSearch extends User
 {
-    public $ltrole;
-    public $gtrole;
+    public $currentRole;
 
     /**
      * @inheritdoc
@@ -22,7 +19,7 @@ class UserSearch extends User
     {
         return [
             [['id', 'person_id', 'role', 'status', 'created_at', 'updated_at'], 'integer'],
-            [['username', 'auth_key', 'password_hash', 'password_reset_token', 'email', 'ltrole', 'gtrole'], 'safe'],
+            [['username', 'auth_key', 'password_hash', 'password_reset_token', 'email', 'currentRole'], 'safe'],
         ];
     }
 
@@ -81,8 +78,7 @@ class UserSearch extends User
             ->andFilterWhere(['like', 'user.password_hash', $this->password_hash])
             ->andFilterWhere(['like', 'user.password_reset_token', $this->password_reset_token])
             ->andFilterWhere(['like', 'user.email', $this->email])
-            ->andFilterWhere(['>=', 'user.role', $this->gtrole])
-            ->andFilterWhere(['<=', 'user.role', $this->ltrole]);
+            ->andFilterWhere(['>=', 'user.role', $this->currentRole]);
 
         return $dataProvider;
     }

@@ -8,14 +8,11 @@ use yii\grid\GridView;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $params = Yii::$app->request->queryParams['UserSearch'];
-$p['UserSearch[gtrole]'] = 1000;
-if (isset($params['ltrole'])) {
-    $p['UserSearch[ltrole]'] = 999;
-} else if (isset($params['gtrole'])) {
-    $p['UserSearch[gtrole]'] = Yii::$app->user->identity->role;
-} else {
-    $p['UserSearch[gtrole]'] = Yii::$app->user->identity->role;
+$p['UserSearch[currentRole]'] = 1000;
+if (isset($params['currentRole'])) {
+    $p['UserSearch[currentRole]'] = Yii::$app->user->identity->role;
 }
+
 $this->title = Yii::t('app', 'Users');
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['buttons'] = [

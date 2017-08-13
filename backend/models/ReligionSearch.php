@@ -2,10 +2,8 @@
 
 namespace backend\models;
 
-use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\models\Religion;
 
 /**
  * ReligionSearch represents the model behind the search form about `backend\models\Religion`.
@@ -21,7 +19,7 @@ class ReligionSearch extends Religion
     {
         return [
             [['id'], 'integer'],
-            [['religion_name'], 'safe'],
+            [['r_name'], 'safe'],
         ];
     }
 
@@ -55,8 +53,8 @@ class ReligionSearch extends Religion
     public function search($params)
     {
         $query = Religion::find();
-        $sort = ['defaultOrder' => ['religion_name' => SORT_ASC]];
-        $pagination = ['pageSize' => 20];
+        $sort = ['defaultOrder' => ['r_name' => SORT_ASC]];
+        $pagination = ['pageSize' => 10];
 
         // add conditions that should always apply here
 
@@ -88,7 +86,7 @@ class ReligionSearch extends Religion
             'religion.id' => $this->id,
         ]);
 
-        $query->andFilterWhere(['like', 'religion.religion_name', $this->religion_name]);
+        $query->andFilterWhere(['like', 'religion.r_name', $this->r_name]);
 
         return (!empty($this->sum)) ? $query->sum($this->sum['field']) : $dataProvider;
     }

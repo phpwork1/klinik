@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel backend\models\JobSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Jobs');
+$this->title = Yii::t('app', 'Pekerjaan');
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['buttons'] = [
     Html::a('<i class="glyphicon glyphicon-plus"></i>', ['create'], [
@@ -24,8 +24,7 @@ $this->params['buttons'] = [
 
 $gridColumns = [
 ['class' => 'yii\grid\SerialColumn'],
-    'id',
-    'job_name',
+    'j_name',
     ['class' => 'yii\grid\ActionColumn',
         'header' => 'Actions',
         'template' => '{view} {update} {delete}',

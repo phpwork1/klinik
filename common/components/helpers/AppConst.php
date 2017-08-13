@@ -2,20 +2,26 @@
 
 namespace common\components\helpers;
 
-use Yii;
 use yii\base\Component;
-use yii\base\InvalidConfigException;
 
 class AppConst extends Component
 {
 
     //KLINIK
     const APP_NAME_CLINIC = 'KLINIK';
+    //Layout
+    const ACTIVE_FORM_TEMPLATE_DEFAULT = '{label} <div class="col-md-10">{input}<span class="help-inline col-xs-12"><span class="middle">{error}{hint}</span></span></div>';
+    const ACTIVE_FORM_CLASS_LABEL_COL_3 = 'col-md-2 no-padding-right';
+    //DATE FORMAT
+    const FORMAT_DATE_PHP_SHOW_MONTH = 'php:d-m-Y';
+    const FORMAT_DB_DATE_PHP = 'php:Y-m-d';
 
 
     //APOTIK
     const APP_NAME_PHARMACY = 'APOTIK';
 
+    const VALIDATE_REQUIRED = '{attribute} harus diisi';
+    const VALIDATE_INTEGER = '{attribute} harus berupa angka';
 
     const APP_NAME = 'Klinik';
     const APP_ADDRESS = 'Jl. Kepulan Asap no.113';

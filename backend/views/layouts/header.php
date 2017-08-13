@@ -26,7 +26,7 @@ $brandName = common\components\helpers\AppConst::APP_NAME_CLINIC;
 
 <header class="main-header ">
 
-    <nav class="navbar navbar-static-top" role="navigation">
+    <nav class="navbar navbar-static-top">
         <div class="container">
             <div class="navbar-header">
                 <?= Html::a('<span class="logo-lg"><b>' . $brandName . '</b></span>', Yii::$app->getHomeUrl(), ['class' => "navbar-brand"]) ?>
@@ -50,18 +50,17 @@ $brandName = common\components\helpers\AppConst::APP_NAME_CLINIC;
                                 <li><?= Html::a('<i class="fa fa-circle-o"></i> ' . "Agama", ['/religion']); ?></li>
                                 <li><?= Html::a('<i class="fa fa-circle-o"></i> ' . "Pekerjaan", ['/job']); ?></li>
                                 <li class="divider"></li>
-                                <li><?= Html::a('<i class="fa fa-circle-o"></i> ' . "Tindakan Praktik", ['/common-upload']); ?></li>
-                                <li><?= Html::a('<i class="fa fa-circle-o"></i> ' . "Tindakan Klinik Kecantikan", ['/common-upload']); ?></li>
+                                <li><?= Html::a('<i class="fa fa-circle-o"></i> ' . "Tindakan Praktik", ['/practice-action']); ?></li>
+                                <li><?= Html::a('<i class="fa fa-circle-o"></i> ' . "Tindakan Klinik Kecantikan", ['/clinical-action']); ?></li>
                                 <li class="divider"></li>
-                                <li><a href="?show=master-diagnosis"><i class="fa fa-circle-o"></i> Tabel Diagnosis</a>
-                                <li><?= Html::a('<i class="fa fa-circle-o"></i> ' . "Tabel Diagnosis", ['/common-upload']); ?></li>
+                                <li><?= Html::a('<i class="fa fa-circle-o"></i> ' . "Tabel Diagnosis", ['/diagnosis']); ?></li>
                             </ul>
                         </li>
 
                     <?php } ?>
 
                     <li class="dropdown">
-                        <?= Html::a("Pasien", ['/common-upload']); ?>
+                        <?= Html::a("Pasien", ['/patient']); ?>
                     </li>
 
                     <li class="dropdown">
@@ -118,7 +117,7 @@ $brandName = common\components\helpers\AppConst::APP_NAME_CLINIC;
                                 <div class="pull-left">
                                     <?= Html::a(Yii::t('app', 'Profile'), ['/person/view', 'id' => $person->id], ['class' => 'btn btn-default btn-flat']) ?>
                                     <?php if (Yii::$app->user->identity->role == User::ROLE_ADMINISTRATOR) {
-                                        echo Html::a(Yii::t('app', 'User Page'), ['/user/index', 'UserSearch[gtrole]' => Yii::$app->user->identity->role], ['class' => 'btn btn-default btn-flat']);
+                                        echo Html::a(Yii::t('app', 'User Page'), ['/user/index', 'UserSearch[currentRole]' => Yii::$app->user->identity->role], ['class' => 'btn btn-default btn-flat']);
                                     } ?>
                                 </div>
                                 <div class="pull-right">

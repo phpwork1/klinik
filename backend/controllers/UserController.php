@@ -25,7 +25,7 @@ class UserController extends Controller
                     [
                         'actions' => ['report', 'index', 'view', 'create', 'update', 'delete', 'toggle-status'],
                         'allow' => true,
-                        'roles' => [User::ROLE_ADMINISTRATOR, User::ROLE_CHAIRMAN, User::ROLE_DEPUTY_CHAIRMAN],
+                        'roles' => [User::ROLE_ADMINISTRATOR],
                     ],
                 ],
             ],
@@ -43,17 +43,6 @@ class UserController extends Controller
      * Lists all User models.
      * @return mixed
      */
-
-    public function beforeAction($action)
-    {
-        //Only Admin can access User Page
-        if(Yii::$app->user->identity->role != User::ROLE_ADMINISTRATOR) {
-            $this->goBack();
-            return parent::beforeAction($action);
-        }
-
-        return parent::beforeAction($action);
-    }
 
     public function actionReport()
     {

@@ -2,6 +2,7 @@
 
 namespace backend\models;
 
+use common\components\helpers\AppConst;
 use Yii;
 use yii\helpers\ArrayHelper;
 //use yii\db\Expression;
@@ -12,7 +13,7 @@ use yii\helpers\ArrayHelper;
  * This is the model class for table "religion".
  *
  * @property integer $id
- * @property string $religion_name
+ * @property string $r_name
  * @property Religion[] $map
  *
  * @property Patient[] $patients
@@ -33,8 +34,8 @@ class Religion extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['religion_name'], 'required'],
-            [['religion_name'], 'string', 'max' => 20],
+            [['r_name'], 'required', 'message' => AppConst::VALIDATE_REQUIRED],
+            [['r_name'], 'string', 'max' => 20],
         ];
     }
 
@@ -45,8 +46,12 @@ class Religion extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'religion_name' => Yii::t('app', 'Religion Name'),
+            'r_name' => Yii::t('app', 'Nama Agama'),
         ];
+    }
+
+    public static function getReligionName($id){
+        return Religion::find()->where(['id' => $id])->one()->r_name;
     }
 
     /**
@@ -83,7 +88,7 @@ class Religion extends \yii\db\ActiveRecord
     * @param string $conditions default to null
     * @return \yii\db\ActiveQuery
     */
-    public static function getAll($value = 'religion_name', $conditions = null) {
+    public static function getAll($value = 'r_name', $conditions = null) {
         $query = Religion::find()->orderBy([$value => SORT_ASC]);
         if (!empty($conditions)) {
             $query->andWhere($conditions);
@@ -96,15 +101,16 @@ class Religion extends \yii\db\ActiveRecord
     * @param string $key default to 'id'
     * @param string $value default to 'name'
     * @param string $conditions default to null
-    * @return Array
+    * @return array
     */
-    public static function map($key = 'id', $value = 'religion_name', $conditions = null) {
+    public static function map($key = 'id', $value = 'r_name', $conditions = null) {
         $key = empty($key) ? 'id' : $key;
-        $value = empty($value) ? 'religion_name' : $value;
+        $value = empty($value) ? 'r_name' : $value;
         $map = ArrayHelper::map(self::getAll($value, $conditions)->all(), $key, $value);
         if (empty($map)) {
             Yii::$app->session->setFlash('danger', Yii::t('app', 'Religion database still empty. Please add the data as soon as possible.'));
         }
+        $map = array("" => '--Silahkan Pilih--') + $map;
         return $map;
     }
 

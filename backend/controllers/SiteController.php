@@ -57,14 +57,7 @@ class SiteController extends Controller {
                         'allow' => true,
                         'roles' => [
                             User::ROLE_ADMINISTRATOR,
-                            User::ROLE_CHAIRMAN,
-                            User::ROLE_DEPUTY_CHAIRMAN,
-                            User::ROLE_SECRETARY,
-                            User::ROLE_TREASURER,
-                            User::ROLE_TRANSPORTATION,
-                            User::ROLE_ACCOMMODATION,
-                            User::ROLE_IT,
-                            User::ROLE_CONTACT_PERSON],
+                            User::ROLE_PARTICIPANT],
                     ],
                     [
                         'actions' => ['index', 'report', 'backup-db'],
@@ -131,14 +124,8 @@ class SiteController extends Controller {
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post())) {
             if ($model->login()) {
-                if (Yii::$app->user->identity->role == User::ROLE_PARTICIPANT) {
-                    Yii::$app->user->logout();
-                    Yii::$app->session->setFlash('danger', 'This is admin section. Participant cannot login');
-                    $this->redirect(['login']);
-                } else {
                     Yii::$app->session->setFlash('success', sprintf("%s %s",'Welcome back. ', Yii::$app->user->identity->getRoleName()));
                     return $this->goBack();
-                }
             } else {
                 Yii::$app->session->setFlash('danger', 'Username / password salah.');
                 return $this->render('login', ['model' => $model]);

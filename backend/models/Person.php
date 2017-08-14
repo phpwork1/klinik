@@ -149,9 +149,6 @@ class Person extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @return \yii\behaviors\TimestampBehavior
-     */
     public function behaviors()
     {
         return [
@@ -162,7 +159,7 @@ class Person extends \yii\db\ActiveRecord
                     ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
                     ActiveRecord::EVENT_BEFORE_DELETE => ['deleted_at'],
                 ],
-                'value' => new Expression('NOW()'),
+                'value' => time(),
             ],
         ];
     }
@@ -190,7 +187,7 @@ class Person extends \yii\db\ActiveRecord
      * Return model objects
      * @param string $value default to 'name'
      * @param string $conditions default to null
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveRecord[]
      */
     public static function getAll($value = 'name', $conditions = null)
     {
@@ -206,7 +203,7 @@ class Person extends \yii\db\ActiveRecord
      * @param string $key default to 'id'
      * @param string $value default to 'name'
      * @param string $conditions default to null
-     * @return Array
+     * @return array
      */
     public static function map($key = 'id', $value = 'name', $conditions = null)
     {

@@ -14,6 +14,11 @@ return [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
+    'modules' => [
+        'gridview' =>  [
+            'class' => '\kartik\grid\Module'
+        ]
+    ],
     'components' => [
 //        'request'=>[
 //            'class' => 'common\components\Request',
@@ -46,6 +51,21 @@ return [
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
+        ],
+        'formatter' => [
+            'class' => 'yii\i18n\Formatter',
+            'locale' => 'id_ID',
+            'defaultTimeZone' => 'Asia/Jakarta',
+            'dateFormat' => 'dd-MM-yyyy',
+            'timeFormat' => 'php:H:i:s',
+            'currencyCode' => 'IDR',
+            'numberFormatterOptions' => [
+                NumberFormatter::MIN_FRACTION_DIGITS => 2,
+                NumberFormatter::MAX_FRACTION_DIGITS => 2
+            ],
+//            'decimalSeparator' => ',',
+//            'thousandSeparator' => '.',
+            'nullDisplay' => '-'
         ],
         'urlManager' => [
             'class' => 'yii\web\UrlManager',

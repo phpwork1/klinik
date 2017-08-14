@@ -54,6 +54,8 @@ $brandName = common\components\helpers\AppConst::APP_NAME_CLINIC;
                                 <li><?= Html::a('<i class="fa fa-circle-o"></i> ' . "Tindakan Klinik Kecantikan", ['/clinical-action']); ?></li>
                                 <li class="divider"></li>
                                 <li><?= Html::a('<i class="fa fa-circle-o"></i> ' . "Tabel Diagnosis", ['/diagnosis']); ?></li>
+                                <li class="divider"></li>
+                                <li><?= Html::a('<i class="fa fa-circle-o"></i> ' . "Admin Profile", ['/person']); ?></li>
                             </ul>
                         </li>
 

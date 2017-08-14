@@ -8,6 +8,7 @@ use backend\models\PersonSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use backend\models\User;
 
 /**
  * PersonController implements the CRUD actions for Person model.
@@ -20,6 +21,17 @@ class PersonController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'ruleConfig' => ['class' => '\common\components\AccessRule'],
+                'rules' => [
+                    [
+                        'actions' => ['index', 'create', 'update', 'delete', 'report', 'view'],
+                        'allow' => true,
+                        'roles' => [User::ROLE_ADMINISTRATOR],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

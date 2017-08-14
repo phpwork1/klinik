@@ -56,7 +56,7 @@ class PersonSearch extends Person
     {
         $query = Person::find();
         $sort = ['defaultOrder' => ['name' => SORT_ASC]];
-        $pagination = ['pageSize' => 20];
+        $pagination = ['pageSize' => 10];
 
         // add conditions that should always apply here
 

@@ -312,7 +312,7 @@ class User extends ActiveRecord implements IdentityInterface {
 
     /**
      * Create New User
-     * @return User|null the saved model or null if saving fails
+     * @return User|FALSE the saved model or null if saving fails
      * @throws \Exception
      * @internal param Yii $array ::$app->request->post() POST data
      */
@@ -341,13 +341,13 @@ class User extends ActiveRecord implements IdentityInterface {
 
             if (!in_array(FALSE, $clean)) {
                 $transaction->commit();
-                return null;
+                return TRUE;
             } else {
                 foreach ($this->errors as $attr => $errors) {
                     $error = join('<br />', $errors);
                     Yii::$app->session->addFlash('danger', Yii::t('app', $error));
                 }
-                return null;
+                return FALSE;
             }
         } catch (Exception $ex) {
             $transaction->rollBack();

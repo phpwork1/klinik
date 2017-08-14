@@ -7,17 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model backend\models\Person */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'People'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-$this->params['buttons'][] = Html::a('<i class="glyphicon glyphicon-pencil"></i>', ['update', 'id' => $model->id], ['class' => 'btn btn-warning', 'title' => Yii::t('app', 'Update')]);
-$this->params['buttons'][] = Html::a('<i class="glyphicon glyphicon-remove"></i> ', ['delete', 'id' => $model->id], [
-    'class' => 'btn btn-danger',
-    'title' => Yii::t('app', 'Delete'),
-    'data' => [
-        'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
-        'method' => 'post',
-    ],
-]);
 ?>
 <div class="box box-info">
     <div class="box-header with-border">

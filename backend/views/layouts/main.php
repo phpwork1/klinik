@@ -3,7 +3,6 @@
 /* @var $content string */
 
 use yii\helpers\Html;
-use backend\assets\AppAsset;
 use backend\models\Parameter;
 
 ## GET PARAMETERS, SAVE TO SESSION

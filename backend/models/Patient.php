@@ -33,15 +33,17 @@ use yii\base\Exception;
  * @property Patient[] $patients
  * @property Job $job
  * @property Religion $religion
+ * @property Registration[] $registrations
+ * @property DrugAllergies[] $drugAllergiess
  */
 class Patient extends \yii\db\ActiveRecord
 {
 
-    const GENDER_AN = 0;
+    const GENDER_MAN = 0;
     const GENDER_WOMAN = 1;
 
     public $genderList = [
-        self::GENDER_AN => 'Laki-Laki',
+        self::GENDER_MAN => 'Laki-Laki',
         self::GENDER_WOMAN => 'Perempuan',
     ];
     /**
@@ -95,10 +97,6 @@ class Patient extends \yii\db\ActiveRecord
         ];
     }
 
-    public static function getPatientName($id){
-        return Patient::find()->where(['id' => $id])->one()->p_name;
-    }
-
     public function getGenderType() {
         return $this->genderList[$this->p_gender];
     }
@@ -118,6 +116,7 @@ class Patient extends \yii\db\ActiveRecord
     }
 
     public function afterFind() {
+        parent::afterFind();
 
         if(!$this->p_registration_date == '') {
             $this->p_registration_date = Yii::$app->formatter->asDate($this->p_registration_date, AppConst::FORMAT_DATE_PHP_SHOW_MONTH);
@@ -145,7 +144,7 @@ class Patient extends \yii\db\ActiveRecord
                 $this->p_name = ucfirst($this->p_name);
             }
 
-            $this->p_registration_date = date('Y-m-d');
+            $this->p_registration_date = time();
 
             $patientFirstLetter = $this->p_name[0];
             //creating medical number
@@ -227,7 +226,7 @@ class Patient extends \yii\db\ActiveRecord
             Yii::$app->session->setFlash('danger', Yii::t('app', 'Patient database still empty. Please add the data as soon as possible.'));
         }
 
-        $map = array("" => '') + $map;
+        $map = array("" => '--Silahkan Pilih--') + $map;
         return $map;
     }
 
@@ -251,10 +250,28 @@ class Patient extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getRegistrations()
+    {
+        return $this->hasMany(Registration::className(), ['patient_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDrugAllergiess()
+    {
+        return $this->hasMany(DrugAllergies::className(), ['patient_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getJob()
     {
         return $this->hasOne(Job::className(), ['id' => 'job_id']);
     }
+
+
 
     /**
      * @return \yii\db\ActiveQuery

@@ -58,6 +58,7 @@ return [
             'class' => 'yii\i18n\Formatter',
             'locale' => 'id_ID',
             'defaultTimeZone' => 'Asia/Jakarta',
+            'timeZone' => 'Asia/Jakarta',
             'dateFormat' => 'dd-MM-yyyy',
             'timeFormat' => 'php:H:i:s',
             'currencyCode' => 'IDR',

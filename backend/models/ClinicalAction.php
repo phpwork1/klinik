@@ -84,7 +84,7 @@ class ClinicalAction extends \yii\db\ActiveRecord
     * @param string $conditions default to null
     * @return \yii\db\ActiveRecord[]
     */
-    public static function getAll($value = 'name', $conditions = null) {
+    public static function getAll($value = 'ca_name', $conditions = null) {
         $query = ClinicalAction::find()->orderBy([$value => SORT_ASC]);
         if (!empty($conditions)) {
             $query->andWhere($conditions);
@@ -99,9 +99,9 @@ class ClinicalAction extends \yii\db\ActiveRecord
     * @param string $conditions default to null
     * @return array
     */
-    public static function map($key = 'id', $value = 'name', $conditions = null) {
+    public static function map($key = 'id', $value = 'ca_name', $conditions = null) {
         $key = empty($key) ? 'id' : $key;
-        $value = empty($value) ? 'name' : $value;
+        $value = empty($value) ? 'ca_name' : $value;
         $map = ArrayHelper::map(self::getAll($value, $conditions), $key, $value);
         if (empty($map)) {
             Yii::$app->session->setFlash('danger', Yii::t('app', 'ClinicalAction database still empty. Please add the data as soon as possible.'));

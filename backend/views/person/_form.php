@@ -74,7 +74,7 @@ use kartik\widgets\DatePicker;
 
     <div class="box-footer">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Tambah') : Yii::t('app', 'Ubah'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('app', 'Back'), ['index'],[ 'class' => 'btn btn-danger']); ?>
+        <?= Html::a(Yii::t('app', 'Kembali'), ['index'],[ 'class' => 'btn btn-danger']); ?>
     </div>
 
     <?php ActiveForm::end(); ?>

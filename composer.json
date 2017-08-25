@@ -20,6 +20,7 @@
         "yiisoft/yii2-swiftmailer": "*",
         "yiisoft/yii2-jui": "*",
         "kartik-v/yii2-grid": "@dev",
+        "kartik-v/yii2-widget-select2": "@dev",
         "kartik-v/yii2-mpdf": "@dev",
         "kartik-v/yii2-export": "*",
         "kartik-v/yii2-widgets": "@dev",

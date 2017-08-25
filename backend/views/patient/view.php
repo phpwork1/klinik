@@ -35,7 +35,7 @@ $this->params['buttons'][] = Html::a('<i class="glyphicon glyphicon-remove"></i>
             </tr>
             <tr>
                 <th><?= $model->getAttributeLabel('patient_id') ?></th>
-                <td><?= is_null($model->patient_id) ? "" : $model->patient->getPatientName($model->patient_id) ?></td>
+                <td><?= is_null($model->patient_id) ? "" : $model->patient->p_name ?></td>
             </tr>
             <tr>
                 <th><?= $model->getAttributeLabel('p_medical_number') ?></th>

@@ -2,6 +2,8 @@
 
 namespace frontend\models;
 
+use backend\models\RmDetail;
+use backend\models\RMedicine;
 use Yii;
 use yii\helpers\ArrayHelper;
 use common\components\helpers\AppConst;
@@ -29,13 +31,25 @@ use common\components\helpers\AppConst;
  * @property string $i_unit
  * @property integer $i_stock_min
  * @property integer $i_stock_max
+ * @property integer $i_blended
  * @property string $i_expired_date
  * @property Item[] $map
  *
  * @property ItemCategory $itemCategory
+ * @property RmDetail[] $rmDetails
+ * @property RMedicine[] $rMedicines
  */
 class Item extends \yii\db\ActiveRecord
 {
+    const BLENDED_NO = 0;
+    const BLENDED_YES = 1;
+
+    public $blendedList = [
+        self::BLENDED_NO => 'Tidak',
+        self::BLENDED_YES => 'Ya',
+    ];
+
+
     /**
      * @inheritdoc
      */
@@ -50,7 +64,7 @@ class Item extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['item_category_id', 'i_name', 'i_buy_price', 'i_sell_price', 'i_stock_amount'], 'required', 'message' => AppConst::VALIDATE_REQUIRED],
+            [['i_blended', 'item_category_id', 'i_name', 'i_buy_price', 'i_sell_price', 'i_stock_amount'], 'required', 'message' => AppConst::VALIDATE_REQUIRED],
             [['item_category_id', 'i_buy_price', 'i_sell_price', 'i_ppn', 'i_retail_price', 'i_net_price', 'i_blend_price', 'i_stock_amount', 'i_stock_min', 'i_stock_max'], 'integer', 'message' => AppConst::VALIDATE_INTEGER],
             [['i_description'], 'string'],
             [['i_expired_date'], 'safe'],
@@ -83,8 +97,17 @@ class Item extends \yii\db\ActiveRecord
             'i_unit' => Yii::t('app', 'Satuan'),
             'i_stock_min' => Yii::t('app', 'Stok Minimum'),
             'i_stock_max' => Yii::t('app', 'Stok Maksimum'),
+            'i_blended' => Yii::t('app', 'Racikan ?'),
             'i_expired_date' => Yii::t('app', 'Expired Date'),
         ];
+    }
+
+    public function getBlendedType() {
+        return $this->blendedList[$this->i_blended];
+    }
+
+    public static function getStock($id){
+        return Item::find()->where(['id' => $id])->one()->i_stock_amount;
     }
 
     public function beforeSave($insert) {
@@ -158,7 +181,7 @@ class Item extends \yii\db\ActiveRecord
     */
     public static function map($key = 'id', $value = 'i_name', $conditions = null) {
         $key = empty($key) ? 'id' : $key;
-        $value = empty($value) ? 'name' : $value;
+        $value = empty($value) ? 'i_name' : $value;
         $map = ArrayHelper::map(self::getAll($value, $conditions), $key, $value);
         if (empty($map)) {
             Yii::$app->session->setFlash('danger', Yii::t('app', 'Item database still empty. Please add the data as soon as possible.'));
@@ -173,5 +196,21 @@ class Item extends \yii\db\ActiveRecord
     public function getItemCategory()
     {
         return $this->hasOne(ItemCategory::className(), ['id' => 'item_category_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRmDetails()
+    {
+        return $this->hasMany(RmDetail::className(), ['item_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRMedicines()
+    {
+        return $this->hasMany(RMedicine::className(), ['item_id' => 'id']);
     }
 }

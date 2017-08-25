@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use common\components\helpers\AppConst;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\ClinicalAction */
@@ -11,14 +12,21 @@ use yii\widgets\ActiveForm;
 <div class="box-body table-responsive clinical-action-form">
 
     <?php $form = ActiveForm::begin(); ?>
-
-    <?= $form->field($model, 'ca_name')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'ca_cost')->textInput() ?>
-
-    <div class="box-footer">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Tambah') : Yii::t('app', 'Ubah'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('app', 'Back'), ['index'],[ 'class' => 'btn btn-danger']); ?>
+    <div class="container-fluid">
+        <div class="row">
+            <?= $form->field($model, "ca_name", ['template' => AppConst::ACTIVE_FORM_TEMPLATE_DEFAULT])
+                ->textInput(['maxlength' => true, 'class' => 'form-control'])
+                ->label(null, ['class' => AppConst::ACTIVE_FORM_CLASS_LABEL_COL_3]); ?>
+        </div>
+        <div class="row">
+            <?= $form->field($model, "ca_cost", ['template' => AppConst::ACTIVE_FORM_TEMPLATE_DEFAULT])
+                ->textInput(['maxlength' => true, 'class' => 'form-control'])
+                ->label(null, ['class' => AppConst::ACTIVE_FORM_CLASS_LABEL_COL_3]); ?>
+        </div>
+        <div class="box-footer">
+            <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Tambah') : Yii::t('app', 'Ubah'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+            <?= Html::a(Yii::t('app', 'Kembali'), ['index'], ['class' => 'btn btn-danger']); ?>
+        </div>
     </div>
 
     <?php ActiveForm::end(); ?>

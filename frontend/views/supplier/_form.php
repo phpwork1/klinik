@@ -16,7 +16,6 @@ use common\components\helpers\AppConst;
     <div class="container-fluid">
         <div class="row">
             <div class="col-xs-12">
-
                 <?= $form->field($model, "s_name", ['template' => AppConst::ACTIVE_FORM_TEMPLATE_DEFAULT])
                     ->textInput(['maxlength' => true, 'class' => 'form-control'])
                     ->label(null, ['class' => AppConst::ACTIVE_FORM_CLASS_LABEL_COL_3]); ?>
@@ -39,7 +38,7 @@ use common\components\helpers\AppConst;
         </div>
         <div class="box-footer">
             <?= Html::submitButton($model->isNewRecord ? 'Tambah' : 'Ubah', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-            <?= Html::a(Yii::t('app', 'Back'), ['index'],[ 'class' => 'btn btn-danger']); ?>
+            <?= Html::a(Yii::t('app', 'Kembali'), ['index'],[ 'class' => 'btn btn-danger']); ?>
         </div>
     </div>
 

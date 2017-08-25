@@ -56,6 +56,10 @@ use yii\jui\DatePicker;
                     )
                     ->label(null, ['class' => AppConst::ACTIVE_FORM_CLASS_LABEL_COL_3]);
                 ?>
+
+                <?= $form->field($model, "i_blended", ['template' => AppConst::ACTIVE_FORM_TEMPLATE_DEFAULT])
+                    ->dropDownList($model->blendedList, ['class' => 'input-big form-control'])
+                    ->label(null, ['class' => AppConst::ACTIVE_FORM_CLASS_LABEL_COL_3]); ?>
             </div>
             <div class="col-xs-12 col-md-6">
                 <?= $form->field($model, "i_buy_price", ['template' => AppConst::ACTIVE_FORM_TEMPLATE_DEFAULT])
@@ -91,13 +95,11 @@ use yii\jui\DatePicker;
                     ->label(null, ['class' => AppConst::ACTIVE_FORM_CLASS_LABEL_COL_3]); ?>
 
             </div>
-
         </div>
-
 
         <div class="box-footer">
             <?= Html::submitButton($model->isNewRecord ? 'Tambah' : 'Ubah', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-            <?= Html::a(Yii::t('app', 'Back'), ['index'],[ 'class' => 'btn btn-danger']); ?>
+            <?= Html::a(Yii::t('app', 'Kembali'), ['index'],[ 'class' => 'btn btn-danger']); ?>
         </div>
     </div>
 

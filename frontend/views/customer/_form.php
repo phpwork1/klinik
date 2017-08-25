@@ -13,21 +13,26 @@ use common\components\helpers\AppConst;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, "c_name", ['template' => AppConst::ACTIVE_FORM_TEMPLATE_DEFAULT])
-        ->textInput(['maxlength' => true, 'class' => 'form-control'])
-        ->label(null, ['class' => AppConst::ACTIVE_FORM_CLASS_LABEL_COL_3]); ?>
-
-    <?= $form->field($model, "c_phone_number", ['template' => AppConst::ACTIVE_FORM_TEMPLATE_DEFAULT])
-        ->textInput(['maxlength' => true, 'class' => 'form-control'])
-        ->label(null, ['class' => AppConst::ACTIVE_FORM_CLASS_LABEL_COL_3]); ?>
-
-    <?= $form->field($model, "c_address", ['template' => AppConst::ACTIVE_FORM_TEMPLATE_DEFAULT])
-        ->textarea(['maxlength' => true, 'class' => 'form-control', 'rows' => 2])
-        ->label(null, ['class' => AppConst::ACTIVE_FORM_CLASS_LABEL_COL_3]); ?>
-
-    <div class="box-footer">
-        <?= Html::submitButton($model->isNewRecord ? 'Tambah' : 'Ubah', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('app', 'Back'), ['index'],[ 'class' => 'btn btn-danger']); ?>
+    <div class="container-fluid">
+        <div class="row">
+            <?= $form->field($model, "c_name", ['template' => AppConst::ACTIVE_FORM_TEMPLATE_DEFAULT])
+                ->textInput(['maxlength' => true, 'class' => 'form-control'])
+                ->label(null, ['class' => AppConst::ACTIVE_FORM_CLASS_LABEL_COL_3]); ?>
+        </div>
+        <div class="row">
+            <?= $form->field($model, "c_phone_number", ['template' => AppConst::ACTIVE_FORM_TEMPLATE_DEFAULT])
+                ->textInput(['maxlength' => true, 'class' => 'form-control'])
+                ->label(null, ['class' => AppConst::ACTIVE_FORM_CLASS_LABEL_COL_3]); ?>
+        </div>
+        <div class="row">
+            <?= $form->field($model, "c_address", ['template' => AppConst::ACTIVE_FORM_TEMPLATE_DEFAULT])
+                ->textarea(['maxlength' => true, 'class' => 'form-control', 'rows' => 2])
+                ->label(null, ['class' => AppConst::ACTIVE_FORM_CLASS_LABEL_COL_3]); ?>
+        </div>
+        <div class="box-footer">
+            <?= Html::submitButton($model->isNewRecord ? 'Tambah' : 'Ubah', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+            <?= Html::a(Yii::t('app', 'Kembali'), ['index'], ['class' => 'btn btn-danger']); ?>
+        </div>
     </div>
 
     <?php ActiveForm::end(); ?>

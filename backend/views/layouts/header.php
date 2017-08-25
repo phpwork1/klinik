@@ -66,14 +66,14 @@ $brandName = common\components\helpers\AppConst::APP_NAME_CLINIC;
                     </li>
 
                     <li class="dropdown">
-                        <?= Html::a("Registrasi", ['/common-upload']); ?>
+                        <?= Html::a("Registrasi", ['/registration']); ?>
                     </li>
 
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Laporan <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
                             <li>
-                                <?= Html::a('<i class="fa fa-circle-o"></i> ' . "Pasien Berobat", ['/common-upload']); ?>
+                                <?= Html::a('<i class="fa fa-circle-o"></i> ' . "Pasien Berobat", ['/registration/patient-report']); ?>
                             </li>
                         </ul>
                     </li>

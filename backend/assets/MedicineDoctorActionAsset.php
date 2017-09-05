@@ -21,6 +21,6 @@ class MedicineDoctorActionAsset extends AssetBundle
         'js/action-view/medicine_doctor_action.js',
     ];
     public $depends = [
-        'yii\web\JQueryAsset',
+        'yii\web\JqueryAsset',
     ];
 }

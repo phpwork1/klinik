@@ -20,6 +20,6 @@ class GoodsPurchaseAsset extends AssetBundle
         'js/stringbuilder.js',
     ];
     public $depends = [
-        'yii\web\JQueryAsset',
+        'yii\web\JqueryAsset',
     ];
 }

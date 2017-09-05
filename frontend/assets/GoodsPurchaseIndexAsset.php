@@ -21,6 +21,6 @@ class GoodsPurchaseIndexAsset extends AssetBundle
         'js/action-view/goods-purchase-index.js',
     ];
     public $depends = [
-        'yii\web\JQueryAsset',
+        'yii\web\JqueryAsset',
     ];
 }

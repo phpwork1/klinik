@@ -21,6 +21,6 @@ class ProcessCheckingAsset extends AssetBundle
         'js/action-view/process-checking.js',
     ];
     public $depends = [
-        'yii\web\JQueryAsset',
+        'yii\web\JqueryAsset',
     ];
 }

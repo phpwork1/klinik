@@ -21,6 +21,6 @@ class ProcessMedicineAsset extends AssetBundle
         'js/action-view/process-medicine.js',
     ];
     public $depends = [
-        'yii\web\JQueryAsset',
+        'yii\web\JqueryAsset',
     ];
 }

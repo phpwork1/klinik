@@ -21,6 +21,6 @@ class ProcessSearchAsset extends AssetBundle
         'js/action-view/process-search.js',
     ];
     public $depends = [
-        'yii\web\JQueryAsset',
+        'yii\web\JqueryAsset',
     ];
 }

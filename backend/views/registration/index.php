@@ -24,7 +24,7 @@ $this->params['buttons'] = [
 ];
 $actionColumn = Yii::$container->get('yii\grid\ActionColumn');
 $buttons = array_merge($actionColumn->buttons, [
-    'process' => function ($model) {
+    'process' => function ($url, $model) {
         return Html::a('<span class="green"><i class="glyphicon glyphicon-arrow-right"></i></span>', ['process', 'id' => $model->id], ['class' => 'btn-sm btn-primary']);
     },
 ]);

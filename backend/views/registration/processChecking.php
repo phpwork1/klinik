@@ -22,7 +22,7 @@ $dataProvider = $searchModelRDiagnosis->search(Yii::$app->request->queryParams);
 
 $actionColumn = Yii::$container->get('yii\grid\ActionColumn');
 $buttons = array_merge($actionColumn->buttons, [
-    'delete' => function ($model) {
+    'delete' => function ($url, $model) {
         return Html::a('<span class="green"><i class="glyphicon glyphicon-remove"></i></span>', ['diagnosis-delete', 'id' => $model->id], ['class' => 'ajaxProcessCheckingDiagnosisDeleteButton btn-sm btn-danger', 'title' => Yii::t('yii', 'Hapus data item ini')]);
     },
 ]);

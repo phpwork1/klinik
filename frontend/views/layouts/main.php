@@ -3,7 +3,6 @@
 /* @var $content string */
 
 use yii\helpers\Html;
-use backend\assets\AppAsset;
 use backend\models\Parameter;
 
 ## GET PARAMETERS, SAVE TO SESSION
@@ -34,8 +33,8 @@ if (Yii::$app->controller->action->id === 'login') {
         ['content' => $content]
     );
 } else {
-    if (class_exists('backend\assets\AppAsset')) {
-        backend\assets\AppAsset::register($this);
+    if (class_exists('frontend\assets\AppAsset')) {
+        frontend\assets\AppAsset::register($this);
     } else {
         backend\assets\AppAsset::register($this);
     }

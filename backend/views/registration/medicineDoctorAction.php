@@ -23,7 +23,7 @@ $dataProvider = $searchModelRDoctorAction->search(Yii::$app->request->queryParam
 
 $actionColumn = Yii::$container->get('yii\grid\ActionColumn');
 $buttons = array_merge($actionColumn->buttons, [
-    'delete' => function ($model) {
+    'delete' => function ($url, $model) {
         return Html::a('<span class="green"><i class="glyphicon glyphicon-remove"></i></span>', ['doctor-action-delete', 'id' => $model->id], ['class' => 'ajaxMedicineDoctorActionDelete btn-sm btn-danger', 'title' => Yii::t('yii', 'Hapus data item ini')]);
     },
 ]);
@@ -47,7 +47,7 @@ $dataProviderDetail = $searchModelRmDetail->search(Yii::$app->request->queryPara
 
 $actionColumn = Yii::$container->get('yii\grid\ActionColumn');
 $buttons = array_merge($actionColumn->buttons, [
-    'delete' => function ($model) {
+    'delete' => function ($url, $model) {
         return Html::a('<span class="green"><i class="glyphicon glyphicon-remove"></i></span>', ['medicine-detail-delete', 'id' => $model->id, 'registration_id' => $model->registration_id], ['class' => 'btn-sm btn-danger', 'title' => Yii::t('yii', 'Hapus data item ini'), 'data' => ['method' => 'post', 'confirm' => 'Yakin ingin menghapus data ini?']]);
     },
 ]);

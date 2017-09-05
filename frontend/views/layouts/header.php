@@ -56,8 +56,8 @@ $brandName = common\components\helpers\AppConst::APP_NAME_PHARMACY;
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Transaksi <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="?show=pembelian-form"> Form Pembelian Barang</a></li>
-                            <li><a href="?show=pembelian"> Informasi Pembelian Barang</a></li>
+                            <li><?= Html::a("Form Pembelian Barang", ['/goods-purchase/create']); ?></li>
+                            <li><?= Html::a("Informasi Pembelian Barang", ['/goods-purchase']); ?></li>
                             <li class="divider"></li>
                             <li><a href="?show=penjualan"> Penjualan External</a></li>
                             <li class="divider"></li>

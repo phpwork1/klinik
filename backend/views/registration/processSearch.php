@@ -19,7 +19,7 @@ $dataProvider = $searchModelRegistrationSearch->search(Yii::$app->request->query
 
 $actionColumn = Yii::$container->get('yii\grid\ActionColumn');
 $buttons = array_merge($actionColumn->buttons, [
-    'view' => function ($model) {
+    'view' => function ($url, $model) {
         Modal::begin([
             'id' => 'processSearchModal' . $model->id,
             'header' => '<h2>Detail Registrasi Pasien' . '</h2>',

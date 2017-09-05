@@ -24,10 +24,10 @@ $dataProvider = $searchModelRMedicine->searchBlended(Yii::$app->request->queryPa
 
 $actionColumn = Yii::$container->get('yii\grid\ActionColumn');
 $buttons = array_merge($actionColumn->buttons, [
-    'delete' => function ($model) {
+    'delete' => function ($url, $model) {
         return Html::a('<span class="green"><i class="glyphicon glyphicon-remove"></i></span>', ['medicine-delete', 'id' => $model->id], ['class' => 'ajaxMedicineBlendedDelete btn-sm btn-danger', 'title' => Yii::t('yii', 'Hapus data item ini')]);
     },
-    'detail' => function ($model) {
+    'detail' => function ($url, $model) {
         return Html::a('<span class="green"><i class="glyphicon glyphicon-plus"></i></span>', 'javascript:void(0)', ['data' => $model->id, 'class' => 'medicineBlendedModalClicked btn-sm btn-primary']);
     },
 ]);
@@ -70,7 +70,7 @@ $dataProviderDetail = $searchModelRmDetail->search(Yii::$app->request->queryPara
 
 $actionColumn = Yii::$container->get('yii\grid\ActionColumn');
 $buttons = array_merge($actionColumn->buttons, [
-    'delete' => function ($model) {
+    'delete' => function ($url, $model) {
         return Html::a('<span class="green"><i class="glyphicon glyphicon-remove"></i></span>', ['medicine-detail-delete', 'id' => $model->id], ['class' => 'ajaxMedicineDetailDelete btn-sm btn-danger', 'title' => Yii::t('yii', 'Hapus data item ini')]);
     },
 ]);

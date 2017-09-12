@@ -1,39 +1,34 @@
 <?php
 
-namespace backend\models;
+namespace frontend\models;
 
 use Yii;
 use yii\helpers\ArrayHelper;
+use common\components\helpers\AppConst;
+use backend\models\Registration;
 //use yii\db\Expression;
 //use yii\behaviors\TimestampBehavior;
 //use yii\db\ActiveRecord;
-use frontend\models\Item;
-use common\components\helpers\AppConst;
-
 
 /**
- * This is the model class for table "rm_detail".
+ * This is the model class for table "sales_type".
  *
  * @property integer $id
+ * @property integer $sales_id
  * @property integer $registration_id
- * @property integer $r_medicine_id
- * @property integer $item_id
- * @property integer $rmd_amount
- * @property RmDetail[] $map
+ * @property SalesType[] $map
  *
- * @property Item $item
- * @property RMedicine $rMedicine
  * @property Registration $registration
+ * @property Sales $sales
  */
-class RmDetail extends \yii\db\ActiveRecord
+class SalesType extends \yii\db\ActiveRecord
 {
-    public $detailName;
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'rm_detail';
+        return 'sales_type';
     }
 
     /**
@@ -42,10 +37,10 @@ class RmDetail extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['registration_id', 'r_medicine_id', 'item_id', 'rmd_amount'], 'required', 'message' => AppConst::VALIDATE_REQUIRED],
-            [['registration_id', 'r_medicine_id', 'item_id', 'rmd_amount'], 'integer', 'message' => AppConst::VALIDATE_INTEGER],
-            [['item_id'], 'exist', 'skipOnError' => true, 'targetClass' => Item::className(), 'targetAttribute' => ['item_id' => 'id']],
-            [['r_medicine_id'], 'exist', 'skipOnError' => true, 'targetClass' => RMedicine::className(), 'targetAttribute' => ['r_medicine_id' => 'id']],
+            [['sales_id', 'registration_id'], 'required', 'message' => AppConst::VALIDATE_REQUIRED],
+            [['sales_id', 'registration_id'], 'integer', 'message' => AppConst::VALIDATE_INTEGER],
+            [['registration_id'], 'exist', 'skipOnError' => true, 'targetClass' => Registration::className(), 'targetAttribute' => ['registration_id' => 'id']],
+            [['sales_id'], 'exist', 'skipOnError' => true, 'targetClass' => Sales::className(), 'targetAttribute' => ['sales_id' => 'id']],
         ];
     }
 
@@ -55,11 +50,9 @@ class RmDetail extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'Kode',
-            'registration_id' => 'Registrasi',
-            'r_medicine_id' => 'Obat',
-            'item_id' => 'Bahan Racikan',
-            'rmd_amount' => 'Jumlah',
+            'id' => 'ID',
+            'sales_id' => 'Sales ID',
+            'registration_id' => 'Registration ID',
         ];
     }
 
@@ -98,7 +91,7 @@ class RmDetail extends \yii\db\ActiveRecord
     * @return \yii\db\ActiveRecord[]
     */
     public static function getAll($value = 'name', $conditions = null) {
-        $query = RmDetail::find()->orderBy([$value => SORT_ASC]);
+        $query = SalesType::find()->orderBy([$value => SORT_ASC]);
         if (!empty($conditions)) {
             $query->andWhere($conditions);
         }
@@ -117,7 +110,7 @@ class RmDetail extends \yii\db\ActiveRecord
         $value = empty($value) ? 'name' : $value;
         $map = ArrayHelper::map(self::getAll($value, $conditions), $key, $value);
         if (empty($map)) {
-            Yii::$app->session->setFlash('danger', Yii::t('app', 'RmDetail database still empty. Please add the data as soon as possible.'));
+            Yii::$app->session->setFlash('danger', Yii::t('app', 'SalesType database still empty. Please add the data as soon as possible.'));
         }
         return $map;
     }
@@ -126,24 +119,16 @@ class RmDetail extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getItem()
-    {
-        return $this->hasOne(Item::className(), ['id' => 'item_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getRMedicine()
-    {
-        return $this->hasOne(RMedicine::className(), ['id' => 'r_medicine_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getRegistration()
     {
         return $this->hasOne(Registration::className(), ['id' => 'registration_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSales()
+    {
+        return $this->hasOne(Sales::className(), ['id' => 'sales_id']);
     }
 }

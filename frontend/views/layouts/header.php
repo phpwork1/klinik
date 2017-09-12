@@ -59,9 +59,9 @@ $brandName = common\components\helpers\AppConst::APP_NAME_PHARMACY;
                             <li><?= Html::a("Form Pembelian Barang", ['/goods-purchase/create']); ?></li>
                             <li><?= Html::a("Informasi Pembelian Barang", ['/goods-purchase']); ?></li>
                             <li class="divider"></li>
-                            <li><a href="?show=penjualan"> Penjualan External</a></li>
+                            <li><?= Html::a("Penjualan External", ['/sales', 'type' => '1']); ?></li>
                             <li class="divider"></li>
-                            <li><a href="?show=resep"> Penjualan Internal</a></li>
+                            <li><?= Html::a("Penjualan Internal", ['/sales', 'type' => '2']); ?></li>
                             <li class="divider"></li>
                             <li><a href="?show=retur-pembelian"> Retur Pembelian</a></li>
                             <li><a href="?show=retur-penjualan"> Retur Penjualan</a></li>

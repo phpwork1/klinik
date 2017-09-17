@@ -2,6 +2,10 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use frontend\assets\SalesIndexAsset;
+use yii\bootstrap\Modal;
+
+SalesIndexAsset::register($this);
 
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\SalesSearch */
@@ -27,6 +31,26 @@ if($type == \frontend\controllers\SalesController::SALES_TYPE_EXTERNAL) {
     ];
 }
 
+$actionColumn = Yii::$container->get('yii\grid\ActionColumn');
+$buttons = array_merge($actionColumn->buttons, [
+    'view' => function ($url, $model) {
+        Modal::begin([
+            'id' => 'salesIndexViewModal' .  $model->id,
+            'header' => '<h2>Lihat Penjualan No Faktur: ' . $model->s_invoice_number . '</h2>',
+            'size' => MODAL::SIZE_LARGE,
+        ]);
+        echo $this->render('indexViewItemModal', ['model' => $model, 'type' => 1]);
+        Modal::end();
+        return yii\helpers\Html::a('<i class="glyphicon glyphicon-eye-open"></i>', 'javascript:void(0)', ['class' => 'btn-sm btn-info salesIndexViewModalButton', 'data-id' => $model->id, 'title' => Yii::t('yii', 'Lihat Rincian Untuk item ini.'),]);
+    },
+    'update' => function ($url, $model) {
+        return yii\helpers\Html::a('<i class="glyphicon glyphicon-pencil"></i>', ['update', 'type' => 1, 'id' => $model->id], ['class' => 'btn-sm btn-warning', 'title' => Yii::t('yii', 'Ubah data item ini.'),]);
+    },
+    'delete' => function ($url, $model) {
+        return yii\helpers\Html::a('<i class="glyphicon glyphicon-remove"></i>', ['delete', 'type' => 1, 'id' => $model->id], ['class' => 'btn-sm btn-danger', 'title' => Yii::t('yii', 'Hapus data item ini'), 'data' => ['method' => 'post', 'confirm' => 'Yakin ingin menghapus data ini?']]);
+    },
+]);
+
 $gridColumns = [
     ['class' => 'yii\grid\SerialColumn'],
     's_invoice_number',
@@ -34,6 +58,7 @@ $gridColumns = [
     's_buyer',
     's_total_paid',
     ['class' => 'yii\grid\ActionColumn',
+        'buttons' => $buttons,
         'header' => 'Actions',
         'template' => '{view} {update} {delete}',
         'contentOptions' => ['class' => 'text-nowrap'],
@@ -86,6 +111,41 @@ if($type == \frontend\controllers\SalesController::SALES_TYPE_INTERNAL){
         'filterModel' => $searchRegistrationModel,
         'columns' => $gridColumnsRegistration,
     ]);
+
+    $actionColumn = Yii::$container->get('yii\grid\ActionColumn');
+    $buttons = array_merge($actionColumn->buttons, [
+        'view' => function ($url, $model) {
+            Modal::begin([
+                'id' => 'salesIndexViewModal' . $model->id,
+                'header' => '<h2>Lihat Penjualan No Faktur: ' . $model->s_invoice_number . '</h2>',
+                'size' => MODAL::SIZE_LARGE,
+            ]);
+            echo $this->render('indexViewItemModal', ['model' => $model, 'type' => 2]);
+            Modal::end();
+            return yii\helpers\Html::a('<i class="glyphicon glyphicon-eye-open"></i>', 'javascript:void(0)', ['class' => 'btn-sm btn-info salesIndexViewModalButton', 'data-id' => $model->id, 'title' => Yii::t('yii', 'Lihat Rincian Untuk item ini.'),]);
+        },
+        'update' => function ($url, $model) {
+            return yii\helpers\Html::a('<i class="glyphicon glyphicon-pencil"></i>', ['update', 'type' => 2, 'registrationId' => $model->salesTypes[0]->registration_id, 'id' => $model->id], ['class' => 'btn-sm btn-warning', 'title' => Yii::t('yii', 'Ubah data item ini.'),]);
+        },
+        'delete' => function ($url, $model) {
+            return yii\helpers\Html::a('<i class="glyphicon glyphicon-remove"></i>', ['delete', 'type' => 2, 'id' => $model->id], ['class' => 'btn-sm btn-danger', 'title' => Yii::t('yii', 'Hapus data item ini'), 'data' => ['method' => 'post', 'confirm' => 'Yakin ingin menghapus data ini?']]);
+        },
+    ]);
+
+    $gridColumns = [
+        ['class' => 'yii\grid\SerialColumn'],
+        's_invoice_number',
+        's_date',
+        's_buyer',
+        's_total_paid',
+        ['class' => 'yii\grid\ActionColumn',
+            'buttons' => $buttons,
+            'header' => 'Actions',
+            'template' => '{view} {update} {delete}',
+            'contentOptions' => ['class' => 'text-nowrap'],
+        ],
+    ];
+
 }
 
 echo GridView::widget([

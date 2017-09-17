@@ -1,28 +1,24 @@
 <?php
 
-use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Sales */
+/* @var $registrationModel backend\models\Registration */
+/* @var $salesType frontend\models\SalesType */
+/* @var $allItem frontend\models\Item[] */
+/* @var $itemList [] */
+/* @var $type string */
 
-$this->title = 'Update Sales: ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Sales', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
-$this->params['buttons'][] = Html::a('<i class="glyphicon glyphicon-remove"></i> ', ['delete', 'id' => $model->id], [
-    'class' => 'btn btn-danger',
-    'data' => [
-        'confirm' => 'Are you sure you want to delete this item?',
-        'method' => 'post',
-    ],
-]);
+$this->title = 'Ubah Penjualan';
+$this->params['breadcrumbs'][] = ['label' => 'Penjualan', 'url' => ['index', 'type' => $type]];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="box box-warning">
-    <div class="box-header with-border">
-        <h3 class="box-title"><?= Html::encode($this->title) ?></h3>
-    </div>
-    <!-- /.box-header -->
-    <?= $this->render('_form', [
+<!-- /.box-header -->
+<?= $this->render('_form', [
+    'allItem' => $allItem,
+    'itemList' => $itemList,
     'model' => $model,
-    ]) ?>
-</div>
+    'registrationModel' => $registrationModel,
+    'type' => $type,
+    'salesType' => $salesType,
+]) ?>

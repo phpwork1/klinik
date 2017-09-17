@@ -29,13 +29,13 @@ $actionColumn = Yii::$container->get('yii\grid\ActionColumn');
 $buttons = array_merge($actionColumn->buttons, [
     'view' => function ($url, $model) {
         Modal::begin([
-            'id' => 'goodsPurchaseIndexViewModal',
+            'id' => 'goodsPurchaseIndexViewModal' .  $model->id,
             'header' => '<h2>Lihat Transaksi No Faktur: ' . $model->gp_invoice_number . '</h2>',
             'size' => MODAL::SIZE_LARGE,
         ]);
         echo $this->render('indexViewItemModal', ['model' => $model]);
         Modal::end();
-        return yii\helpers\Html::a('<i class="glyphicon glyphicon-eye-open"></i>', 'javascript:void(0)', ['class' => 'btn-sm btn-info goodsPurchaseIndexViewModalButton', 'title' => Yii::t('yii', 'Lihat Rincian Untuk item ini.'),]);
+        return yii\helpers\Html::a('<i class="glyphicon glyphicon-eye-open"></i>', 'javascript:void(0)', ['class' => 'btn-sm btn-info goodsPurchaseIndexViewModalButton', 'data-id' => $model->id, 'title' => Yii::t('yii', 'Lihat Rincian Untuk item ini.'),]);
     },
 ]);
 

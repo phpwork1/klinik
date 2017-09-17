@@ -2,35 +2,33 @@
 
 namespace frontend\models;
 
+use backend\models\RMedicine;
+use common\components\helpers\AppConst;
 use Yii;
 use yii\helpers\ArrayHelper;
-use common\components\helpers\AppConst;
 //use yii\db\Expression;
 //use yii\behaviors\TimestampBehavior;
 //use yii\db\ActiveRecord;
 
 /**
- * This is the model class for table "sales_detail".
+ * This is the model class for table "sales_detail_internal".
  *
  * @property integer $id
- * @property integer $sales_id
- * @property integer $item_id
- * @property integer $sd_quantity
- * @property integer $sd_discount
- * @property SalesDetail[] $map
+ * @property integer $sales_detail_id
+ * @property integer $r_medicine_id
+ * @property SalesDetailInternal[] $map
  *
- * @property Sales $sales
- * @property Item $item
- * @property SalesDetailInternal[] $salesDetailInternals
+ * @property SalesDetail $salesDetail
+ * @property RMedicine $rMedicine
  */
-class SalesDetail extends \yii\db\ActiveRecord
+class SalesDetailInternal extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'sales_detail';
+        return 'sales_detail_internal';
     }
 
     /**
@@ -39,10 +37,10 @@ class SalesDetail extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['sales_id', 'item_id', 'sd_quantity'], 'required', 'message' => AppConst::VALIDATE_REQUIRED],
-            [['sales_id', 'item_id', 'sd_quantity', 'sd_discount'], 'integer', 'message' => AppConst::VALIDATE_INTEGER],
-            [['sales_id'], 'exist', 'skipOnError' => true, 'targetClass' => Sales::className(), 'targetAttribute' => ['sales_id' => 'id']],
-            [['item_id'], 'exist', 'skipOnError' => true, 'targetClass' => Item::className(), 'targetAttribute' => ['item_id' => 'id']],
+            [['sales_detail_id', 'r_medicine_id'], 'required', 'message' => AppConst::VALIDATE_REQUIRED],
+            [['sales_detail_id', 'r_medicine_id'], 'integer', 'message' => AppConst::VALIDATE_INTEGER],
+            [['sales_detail_id'], 'exist', 'skipOnError' => true, 'targetClass' => SalesDetail::className(), 'targetAttribute' => ['sales_detail_id' => 'id']],
+            [['r_medicine_id'], 'exist', 'skipOnError' => true, 'targetClass' => RMedicine::className(), 'targetAttribute' => ['r_medicine_id' => 'id']],
         ];
     }
 
@@ -53,10 +51,8 @@ class SalesDetail extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'sales_id' => 'Sales ID',
-            'item_id' => 'Item ID',
-            'sd_quantity' => 'Sd Quantity',
-            'sd_discount' => 'Sd Discount',
+            'sales_detail_id' => 'Penjualan',
+            'r_medicine_id' => 'Obat',
         ];
     }
 
@@ -95,7 +91,7 @@ class SalesDetail extends \yii\db\ActiveRecord
     * @return \yii\db\ActiveRecord[]
     */
     public static function getAll($value = 'name', $conditions = null) {
-        $query = SalesDetail::find()->orderBy([$value => SORT_ASC]);
+        $query = SalesDetailInternal::find()->orderBy([$value => SORT_ASC]);
         if (!empty($conditions)) {
             $query->andWhere($conditions);
         }
@@ -114,7 +110,7 @@ class SalesDetail extends \yii\db\ActiveRecord
         $value = empty($value) ? 'name' : $value;
         $map = ArrayHelper::map(self::getAll($value, $conditions), $key, $value);
         if (empty($map)) {
-            Yii::$app->session->setFlash('danger', Yii::t('app', 'SalesDetail database still empty. Please add the data as soon as possible.'));
+            Yii::$app->session->setFlash('danger', Yii::t('app', 'SalesDetailInternal database still empty. Please add the data as soon as possible.'));
         }
         return $map;
     }
@@ -123,24 +119,16 @@ class SalesDetail extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getSales()
+    public function getSalesDetail()
     {
-        return $this->hasOne(Sales::className(), ['id' => 'sales_id']);
+        return $this->hasOne(SalesDetail::className(), ['id' => 'sales_detail_id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getItem()
+    public function getRMedicine()
     {
-        return $this->hasOne(Item::className(), ['id' => 'item_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getSalesDetailInternals()
-    {
-        return $this->hasMany(SalesDetailInternal::className(), ['sales_detail_id' => 'id']);
+        return $this->hasOne(RMedicine::className(), ['id' => 'r_medicine_id']);
     }
 }

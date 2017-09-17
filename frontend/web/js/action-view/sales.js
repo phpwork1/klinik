@@ -3,6 +3,7 @@
  */
 jQuery(document).ready(function () {
     var baseUrl = $('#baseUrl').val();
+    $('.chosen-select').chosen();
 
     $('.salesDetailItemModalButton').on("click", function (e) {
         e.preventDefault(); //for prevent default behavior of <a> tag.
@@ -46,7 +47,7 @@ jQuery(document).ready(function () {
             success: function (data) {
                 if (data !== false) {
                     $('#salesPrice').val(data['item'].i_buy_price);
-                    $('#salesAmount').val(data['item'].i_stock_amount);
+                    $('#salesAmount').val(data['amount']);
                 } else {
                     $('#salesPrice').val('Tidak ada data');
                     $('#salesAmount').val('Tidak ada data');
@@ -83,8 +84,10 @@ jQuery(document).ready(function () {
                     if (data !== false) {
                         name = data['item'].i_name;
                         itemId = data['item'].id;
-                        detail = 0;
-                        insertRow(detail, type, index, name, itemId);
+                        detailPrice = 0;
+                        detailName = 0;
+                        totalPrice = 0;
+                        insertRow(totalPrice, detailName, detailPrice, type, index, name, itemId);
                         tableIndex = tableTbody.find('tr').size();
                     }
                 }
@@ -99,7 +102,8 @@ jQuery(document).ready(function () {
                     if (data !== false) {
                         name = data['item'].i_name;
                         itemId = data['item'].id;
-                        detail = [];
+                        detailName = [];
+                        detailPrice = [];
                         $.ajax({
                             url: baseUrl + '/sales/ajax-item-detail-internal-detail',
                             type: 'post',
@@ -109,10 +113,12 @@ jQuery(document).ready(function () {
                                 if (data !== false) {
                                     count = 0;
                                     $.each(data['detail'], function (i, obj) {
-                                        detail[count] = obj.i_name;
+                                        detailName[count] = obj.name;
+                                        detailPrice[count] = obj.price;
                                         count++;
                                     });
-                                    insertRow(detail, type, index, name, itemId);
+                                    totalPrice = data['total'];
+                                    insertRow(totalPrice, detailName, detailPrice, type, index, name, itemId);
                                     tableIndex = tableTbody.find('tr').size();
                                 }
                             }
@@ -123,7 +129,7 @@ jQuery(document).ready(function () {
         }
     }
 
-    function insertRow(detail, type, index, name, itemId) {
+    function insertRow(totalPrice, detailName, detailPrice, type, index, name, itemId) {
         dropdown = $('.salesAddItem');
         itemDiscount = $('#salesDiscount').val();
         itemAmount = $('#salesAmount').val();
@@ -135,23 +141,25 @@ jQuery(document).ready(function () {
         sb.append('<td>');
 
         if(type === 2) {
+            itemPrice = totalPrice;
             sb.append(name);
             sb.append('<ul>');
 
-            for (i = 0; i < detail.length; i++) {
-                sb.append('<li>'+detail[i]+'</li>');
+            for (i = 0; i < detailName.length; i++) {
+                sb.append('<li>'+detailName[i]+" >> "+detailPrice[i]+'</li>');
             }
 
             sb.append('</ul> ');
             rMedicineId = dropdown.val();
             sb.append('<input class="itemName" name="SalesDetail[' + index + '][item_id]" type="hidden" value="' + itemId + '" data-medicine="' + rMedicineId + '" data-type="'+type+'">');
+            sb.append('<input name="SalesDetailInternal[' + index + '][r_medicine_id]" type="hidden" value="' + rMedicineId + '">');
         }else{
             sb.append(name);
             sb.append('<input class="itemName" name="SalesDetail[' + index + '][item_id]" type="hidden" value="' + itemId + '" data-type="'+type+'">');
         }
         sb.append('</td>');
         sb.append('<td class="text-center">');
-        sb.append('Rp. ' + itemPrice);
+        sb.append(accounting.formatMoney(itemPrice, "Rp. ", 0, ","));
         sb.append('</td>');
         sb.append('<td class="text-center">');
         sb.append(itemAmount);
@@ -167,12 +175,12 @@ jQuery(document).ready(function () {
             itemAfterDiscount = itemPrice * itemAmount * (1-(itemDiscount/100));
             itemAfterDiscount = Math.round(itemAfterDiscount);
             sb.append('<td class="text-center">');
-            sb.append('Rp. ' + itemAfterDiscount);
+            sb.append(accounting.formatMoney(itemAfterDiscount, "Rp. ", 0, ","));
             sb.append('<input data-cell="A' + index + '" value="' + itemAfterDiscount + '" name="total" type="hidden">');
             sb.append('</td>');
         }else{
             sb.append('<td class="text-center">');
-            sb.append('Rp. ' + itemPrice * itemAmount);
+            sb.append(accounting.formatMoney(itemPrice * itemAmount, "Rp. ", 0, ","));
             sb.append('<input data-cell="A' + index + '" value="' + (itemPrice * itemAmount) + '" name="total" type="hidden">');
             sb.append('</td>');
         }
@@ -185,6 +193,7 @@ jQuery(document).ready(function () {
         sb.clear();
 
         dropdown.find("option:selected").remove();
+        dropdown.trigger("chosen:updated");
         form.calx('update').calx('calculate');
     }
 
@@ -231,19 +240,65 @@ jQuery(document).ready(function () {
         form.calx('update').calx('calculate');
     });
 
+    $(".dropdownRemoveId").each(function(index){
+        type = $('#salesAddItemButton').data('type');
+        if(type === 1){
+            $("#salesAddItemExternal").find("option[value='"+$(this).val()+"']").remove();
+        }else{
+            $("#salesAddItemInternal").find("option[value='"+$(this).val()+"']").remove();
+        }
+    });
+
     $(document).on('click', '.btn-remove-ajax', function () {
+        type = $(this).closest('tr').find(".itemName").data('type');
+        medicineId = $(this).closest('tr').find(".itemName").data('medicine');
+        itemid = $(this).closest('tr').find(".itemName").val();
+
         if (confirm('Data akan terhapus secara permanen. Teruskan?')) {
             var id = $(this).data('id'),
                 controller = $(this).data('controller'),
                 tr = $(this).closest('tr');
 
             $.ajax({
-                url: baseUrl + '/' + controller + '/ajax-item-detail-delete',
+                url: baseUrl + '/' + controller + '/ajax-sales-detail-delete',
                 dataType: "json",
                 type: 'post',
                 data: {id: id},
                 success: function (data) {
                     if (data !== false) {
+                        if(type === 1){
+                            $.ajax({
+                                url: baseUrl + '/sales/ajax-item-detail-external',
+                                type: 'post',
+                                data: {item_id: itemid},
+                                dataType: 'json',
+                                success: function (data) {
+                                    if (data !== false) {
+                                        name = data['item'].i_name;
+                                        $('.salesAddItem').append($('<option>', {
+                                            value: itemid,
+                                            text: name
+                                        }));
+                                    }
+                                }
+                            });
+                        }else{
+                            $.ajax({
+                                url: baseUrl + '/sales/ajax-item-detail-internal',
+                                type: 'post',
+                                data: {rmedicine_id: medicineId, format:1},
+                                dataType: 'json',
+                                success: function (data) {
+                                    if (data !== false) {
+                                        name = data['item'].i_name;
+                                        $('.salesAddItem').append($('<option>', {
+                                            value: medicineId,
+                                            text: name
+                                        }));
+                                    }
+                                }
+                            });
+                        }
                         tr.remove();
                         form.calx('update').calx('calculate');
                     } else {

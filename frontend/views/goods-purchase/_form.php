@@ -7,11 +7,13 @@ use yii\jui\DatePicker;
 use frontend\assets\GoodsPurchaseAsset;
 use yii\bootstrap\Modal;
 use yii\helpers\Url;
+use frontend\assets\ChosenAsset;
+
 
 $currentUrl = Url::current();
 $baseUrl = Url::base();
 
-
+ChosenAsset::register($this);
 GoodsPurchaseAsset::register($this);
 
 /* @var $this yii\web\View */
@@ -56,7 +58,7 @@ Modal::end();
                 <div class="col-xs-12 col-md-4">
                     <?= Html::label("Nama Barang", "itemListLabel", ['class' => AppConst::ACTIVE_FORM_CLASS_LABEL_COL_3]); ?>
                     <?= Html::button('<span class="glyphicon glyphicon-plus"></span>', ['class' => 'goodsPurchaseAddItemModalButton']); ?>
-                    <?= Html::dropDownList("itemList", null, \frontend\models\Item::map(), ['id' => 'goodsPurchaseAddItem', 'class' => 'input-big form-control', 'prompt' => '--Silahkan Pilih--']) ?>
+                    <?= Html::dropDownList("itemList", null, \frontend\models\Item::map(), ['id' => 'goodsPurchaseAddItem', 'class' => 'input-big form-control chosen-select', 'prompt' => '--Silahkan Pilih--']) ?>
                 </div>
                 <div class="col-xs-12 col-md-2">
                     <?= Html::label("Harga", "itemPriceLabel", ['class' => AppConst::ACTIVE_FORM_CLASS_LABEL_COL_3]); ?>
@@ -184,7 +186,7 @@ Modal::end();
                 <?php \yii\widgets\Pjax::begin(['id' => 'pjaxSupplierList']); ?>
                 <div class="col-xs-12 col-md-6">
                     <?= $form->field($model, "supplier_id", ['template' => '<div class="col-md-3 no-padding-right">{label} <button class="goodsPurchaseAddSupplierModalButton"><span class="glyphicon glyphicon-plus"></span></button></div><div class="col-md-9">{input}<span class="help-inline col-xs-12"><span class="middle">{error}{hint}</span></span></div>'])
-                        ->dropDownList(\frontend\models\Supplier::map(), ['class' => 'input-big form-control', 'prompt' => '--Silahkan Pilih--'])
+                        ->dropDownList(\frontend\models\Supplier::map(), ['class' => 'input-big form-control chosen-select', 'prompt' => '--Silahkan Pilih--'])
                         ->label("Suplier"); ?>
                 </div>
                 <?php \yii\widgets\Pjax::end(); ?>
@@ -198,7 +200,7 @@ Modal::end();
             <div class="row">
                 <div class="col-md-6">
                     <?= $form->field($model, "gp_payment_method", ['template' => AppConst::ACTIVE_FORM_TEMPLATE_DEFAULT])
-                        ->dropDownList($model->paymentTypeList, ['class' => 'input-big form-control', 'prompt' => '--Silahkan Pilih--'])
+                        ->dropDownList($model->paymentTypeList, ['class' => 'input-big form-control chosen-select', 'prompt' => '--Silahkan Pilih--'])
                         ->label("Syarat", ['class' => AppConst::ACTIVE_FORM_CLASS_LABEL_COL_3]); ?>
                 </div>
                 <div class="col-xs-12 col-md-6">

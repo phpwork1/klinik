@@ -3,6 +3,7 @@
  */
 jQuery(document).ready(function () {
     var baseUrl = $('#baseUrl').val();
+    $('.chosen-select').chosen();
 
     $('.goodsPurchaseAddItemModalButton').on("click", function (e) {
         e.preventDefault(); //for prevent default behavior of <a> tag.
@@ -34,7 +35,9 @@ jQuery(document).ready(function () {
                         .on('hidden.bs.modal', function () {
                             $(this).find('form')[0].reset();
                         });
-                    $.pjax.reload({container: "#pjaxItemList"}); //for pjax update
+                    $.pjax.reload({container: "#pjaxItemList"}).done(function(){
+                        $('#goodsPurchaseAddItem').chosen();
+                    });
                 },
                 error: function () {
                     alert("Terjadi error, data tidak tersimpan");
@@ -74,7 +77,9 @@ jQuery(document).ready(function () {
                         .on('hidden.bs.modal', function () {
                             $(this).find('form')[0].reset();
                         });
-                    $.pjax.reload({container: "#pjaxSupplierList"}); //for pjax update
+                    $.pjax.reload({container: "#pjaxSupplierList"}).done(function(){
+                        $('#goodsPurchaseAddItem').chosen();
+                    }); //for pjax update
                 },
                 error: function () {
                     alert("Terjadi error, data tidak tersimpan");
@@ -129,7 +134,8 @@ jQuery(document).ready(function () {
                     name = data['item'].i_name;
                     insertRow(index, name);
                     tableIndex = tableTbody.find('tr').size();
-                    $.pjax.reload({container: "#pjaxItemList"}); //for pjax update
+                    $("#goodsPurchaseAddItem").prop('selectedIndex', 0).trigger("chosen:updated");
+                 //   $.pjax.reload({container: "#pjaxItemList"}); //for pjax update
                 }
             }
         });

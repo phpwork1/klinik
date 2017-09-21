@@ -145,7 +145,11 @@ class GoodsPurchase extends \yii\db\ActiveRecord
         if (!empty($conditions)) {
             $query->andWhere($conditions);
         }
-        return $query->all();
+        $result = $query->all();
+        foreach($result as $key => $value) {
+            $value->gp_invoice_number = sprintf("%s | %s | %s", $value->gp_invoice_number, $value->gp_date, $value->supplier->s_name);
+        }
+        return $result;
     }
 
     public function beforeSave($insert) {

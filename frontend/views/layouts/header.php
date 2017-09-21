@@ -63,8 +63,8 @@ $brandName = common\components\helpers\AppConst::APP_NAME_PHARMACY;
                             <li class="divider"></li>
                             <li><?= Html::a("Penjualan Internal", ['/sales', 'type' => '2']); ?></li>
                             <li class="divider"></li>
-                            <li><a href="?show=retur-pembelian"> Retur Pembelian</a></li>
-                            <li><a href="?show=retur-penjualan"> Retur Penjualan</a></li>
+                            <li><?= Html::a("Retur Pembelian", ['/goods-purchase-return']); ?></li>
+                            <li><?= Html::a("Retur Penjualan", ['/sales']); ?></li>
                         </ul>
                     </li>
 

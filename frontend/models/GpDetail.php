@@ -141,6 +141,19 @@ class GpDetail extends \yii\db\ActiveRecord
         return $map;
     }
 
+    public static function dropdownItemMap($id) {
+        $data =[];
+        $gpDetails = GoodsPurchase::find()->where(['id' => $id])->one()->gpDetails;
+
+        foreach($gpDetails as $key => $value){
+            $data[$value->id] = sprintf("%s | %s", $value->item->i_name, $value->gpd_price);
+        }
+        if (empty($data)) {
+            Yii::$app->session->setFlash('danger', Yii::t('app', 'GpDetail database still empty. Please add the data as soon as possible.'));
+        }
+        return $data;
+    }
+
 
     /**
      * @return \yii\db\ActiveQuery

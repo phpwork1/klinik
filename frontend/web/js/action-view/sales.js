@@ -66,8 +66,6 @@ jQuery(document).ready(function () {
         if (idAddItem) {
             type = $(this).data('type');
             findItemName(type, tableIndex, idAddItem);
-
-
         } else {
             alert('Pilih Barang Terlebih Dahulu');
         }
@@ -214,7 +212,7 @@ jQuery(document).ready(function () {
                         $('.salesAddItem').append($('<option>', {
                             value: id,
                             text: name
-                        }));
+                        })).trigger("chosen:updated");
                     }
                 }
             });
@@ -230,7 +228,7 @@ jQuery(document).ready(function () {
                         $('.salesAddItem').append($('<option>', {
                             value: medicineId,
                             text: name
-                        }));
+                        })).trigger("chosen:updated");
                     }
                 }
             });
@@ -243,10 +241,11 @@ jQuery(document).ready(function () {
     $(".dropdownRemoveId").each(function(index){
         type = $('#salesAddItemButton').data('type');
         if(type === 1){
-            $("#salesAddItemExternal").find("option[value='"+$(this).val()+"']").remove();
+            $("#salesAddItemExternal").find("option[value='"+$(this).val()+"']").remove().trigger("chosen:updated");
         }else{
-            $("#salesAddItemInternal").find("option[value='"+$(this).val()+"']").remove();
+            $("#salesAddItemInternal").find("option[value='"+$(this).val()+"']").remove().trigger("chosen:updated");
         }
+
     });
 
     $(document).on('click', '.btn-remove-ajax', function () {
@@ -300,6 +299,7 @@ jQuery(document).ready(function () {
                             });
                         }
                         tr.remove();
+                        $('.salesAddItem').trigger("chosen:updated");
                         form.calx('update').calx('calculate');
                     } else {
                         alert('Proses hapus data gagal.');

@@ -123,10 +123,10 @@ Modal::end();
                         <tr>
                             <td class="text-center"><?= ($keyD + 1) ?></td>
                             <td class="text-center"><?= $detail->item->i_name ?></td>
-                            <td class="text-center"><?= sprintf("Rp. %s",$detail->gpd_price); ?></td>
+                            <td class="text-center"><?= sprintf("Rp. %s", number_format($detail->gpd_price,0, '.', ',')); ?></td>
                             <td class="text-center"><?= $detail->gpd_quantity ?></td>
                             <td class="text-center">
-                                <?= sprintf("Rp. %s",$detail->gpd_price*$detail->gpd_quantity); ?>
+                                <?= sprintf("Rp. %s",number_format($detail->gpd_price*$detail->gpd_quantity,0, '.', ',')); ?>
                                 <?= Html::hiddenInput("totalPrice",  $detail->gpd_price*$detail->gpd_quantity, ['data-cell' => "A$keyD"]); ?>
                             </td>
                             <td class="text-center"><?= $detail->gpd_expire_date ?></td>

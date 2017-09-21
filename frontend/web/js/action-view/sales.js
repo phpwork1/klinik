@@ -212,7 +212,8 @@ jQuery(document).ready(function () {
                         $('.salesAddItem').append($('<option>', {
                             value: id,
                             text: name
-                        })).trigger("chosen:updated");
+                        }));
+                        $('.salesAddItem').trigger("chosen:updated");
                     }
                 }
             });
@@ -228,7 +229,8 @@ jQuery(document).ready(function () {
                         $('.salesAddItem').append($('<option>', {
                             value: medicineId,
                             text: name
-                        })).trigger("chosen:updated");
+                        }));
+                        $('.salesAddItem').trigger("chosen:updated");
                     }
                 }
             });
@@ -241,9 +243,11 @@ jQuery(document).ready(function () {
     $(".dropdownRemoveId").each(function(index){
         type = $('#salesAddItemButton').data('type');
         if(type === 1){
-            $("#salesAddItemExternal").find("option[value='"+$(this).val()+"']").remove().trigger("chosen:updated");
+            $("#salesAddItemExternal").find("option[value='"+$(this).val()+"']").remove();
+            $('#salesAddItemExternal').trigger("chosen:updated");
         }else{
-            $("#salesAddItemInternal").find("option[value='"+$(this).val()+"']").remove().trigger("chosen:updated");
+            $("#salesAddItemInternal").find("option[value='"+$(this).val()+"']").remove();
+            $('#salesAddItemInternal').trigger("chosen:updated");
         }
 
     });
@@ -278,6 +282,7 @@ jQuery(document).ready(function () {
                                             value: itemid,
                                             text: name
                                         }));
+                                        $('.salesAddItem').trigger("chosen:updated");
                                     }
                                 }
                             });
@@ -294,12 +299,12 @@ jQuery(document).ready(function () {
                                             value: medicineId,
                                             text: name
                                         }));
+                                        $('.salesAddItem').trigger("chosen:updated");
                                     }
                                 }
                             });
                         }
                         tr.remove();
-                        $('.salesAddItem').trigger("chosen:updated");
                         form.calx('update').calx('calculate');
                     } else {
                         alert('Proses hapus data gagal.');

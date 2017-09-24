@@ -46,7 +46,7 @@ jQuery(document).ready(function () {
             dataType: 'json',
             success: function (data) {
                 if (data !== false) {
-                    $('#salesPrice').val(data['item'].i_buy_price);
+                    $('#salesPrice').val(data['item'].i_sell_price);
                     $('#salesAmount').val(data['amount']);
                 } else {
                     $('#salesPrice').val('Tidak ada data');
@@ -100,27 +100,34 @@ jQuery(document).ready(function () {
                     if (data !== false) {
                         name = data['item'].i_name;
                         itemId = data['item'].id;
+                        blended = data['item'].i_blended
                         detailName = [];
                         detailPrice = [];
-                        $.ajax({
-                            url: baseUrl + '/sales/ajax-item-detail-internal-detail',
-                            type: 'post',
-                            data: {rmedicine_id: id},
-                            dataType: 'json',
-                            success: function (data) {
-                                if (data !== false) {
-                                    count = 0;
-                                    $.each(data['detail'], function (i, obj) {
-                                        detailName[count] = obj.name;
-                                        detailPrice[count] = obj.price;
-                                        count++;
-                                    });
-                                    totalPrice = data['total'];
-                                    insertRow(totalPrice, detailName, detailPrice, type, index, name, itemId);
-                                    tableIndex = tableTbody.find('tr').size();
+                        if(blended === 1) {
+                            $.ajax({
+                                url: baseUrl + '/sales/ajax-item-detail-internal-detail',
+                                type: 'post',
+                                data: {rmedicine_id: id},
+                                dataType: 'json',
+                                success: function (data) {
+                                    if (data !== false) {
+                                        count = 0;
+                                        $.each(data['detail'], function (i, obj) {
+                                            detailName[count] = obj.name;
+                                            detailPrice[count] = obj.price;
+                                            count++;
+                                        });
+                                        totalPrice = data['total'];
+                                        insertRow(totalPrice, detailName, detailPrice, type, index, name, itemId);
+                                        tableIndex = tableTbody.find('tr').size();
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        }else{
+                            totalPrice = data['item'].i_sell_price;
+                            insertRow(totalPrice, detailName, detailPrice, type, index, name, itemId);
+                            tableIndex = tableTbody.find('tr').size();
+                        }
                     }
                 }
             });
@@ -138,22 +145,22 @@ jQuery(document).ready(function () {
         sb.append('</td>');
         sb.append('<td>');
 
-        if(type === 2) {
+        if (type === 2) {
             itemPrice = totalPrice;
             sb.append(name);
             sb.append('<ul>');
 
             for (i = 0; i < detailName.length; i++) {
-                sb.append('<li>'+detailName[i]+" >> "+detailPrice[i]+'</li>');
+                sb.append('<li>' + detailName[i] + " >> " + detailPrice[i] + '</li>');
             }
 
             sb.append('</ul> ');
             rMedicineId = dropdown.val();
-            sb.append('<input class="itemName" name="SalesDetail[' + index + '][item_id]" type="hidden" value="' + itemId + '" data-medicine="' + rMedicineId + '" data-type="'+type+'">');
+            sb.append('<input class="itemName" name="SalesDetail[' + index + '][item_id]" type="hidden" value="' + itemId + '" data-medicine="' + rMedicineId + '" data-type="' + type + '">');
             sb.append('<input name="SalesDetailInternal[' + index + '][r_medicine_id]" type="hidden" value="' + rMedicineId + '">');
-        }else{
+        } else {
             sb.append(name);
-            sb.append('<input class="itemName" name="SalesDetail[' + index + '][item_id]" type="hidden" value="' + itemId + '" data-type="'+type+'">');
+            sb.append('<input class="itemName" name="SalesDetail[' + index + '][item_id]" type="hidden" value="' + itemId + '" data-type="' + type + '">');
         }
         sb.append('</td>');
         sb.append('<td class="text-center">');
@@ -170,13 +177,13 @@ jQuery(document).ready(function () {
             sb.append('<input name="SalesDetail[' + index + '][sd_discount]" type="hidden" value="' + itemDiscount + '">');
             sb.append('</td>');
 
-            itemAfterDiscount = itemPrice * itemAmount * (1-(itemDiscount/100));
+            itemAfterDiscount = itemPrice * itemAmount * (1 - (itemDiscount / 100));
             itemAfterDiscount = Math.round(itemAfterDiscount);
             sb.append('<td class="text-center">');
             sb.append(accounting.formatMoney(itemAfterDiscount, "Rp. ", 0, ","));
             sb.append('<input data-cell="A' + index + '" value="' + itemAfterDiscount + '" name="total" type="hidden">');
             sb.append('</td>');
-        }else{
+        } else {
             sb.append('<td class="text-center">');
             sb.append(accounting.formatMoney(itemPrice * itemAmount, "Rp. ", 0, ","));
             sb.append('<input data-cell="A' + index + '" value="' + (itemPrice * itemAmount) + '" name="total" type="hidden">');
@@ -200,7 +207,7 @@ jQuery(document).ready(function () {
         medicineId = $(this).closest('tr').find(".itemName").data('medicine');
         id = $(this).closest('tr').find(".itemName").val();
 
-        if(type === 1){
+        if (type === 1) {
             $.ajax({
                 url: baseUrl + '/sales/ajax-item-detail-external',
                 type: 'post',
@@ -217,11 +224,11 @@ jQuery(document).ready(function () {
                     }
                 }
             });
-        }else{
+        } else {
             $.ajax({
                 url: baseUrl + '/sales/ajax-item-detail-internal',
                 type: 'post',
-                data: {rmedicine_id: medicineId, format:1},
+                data: {rmedicine_id: medicineId, format: 1},
                 dataType: 'json',
                 success: function (data) {
                     if (data !== false) {
@@ -240,13 +247,13 @@ jQuery(document).ready(function () {
         form.calx('update').calx('calculate');
     });
 
-    $(".dropdownRemoveId").each(function(index){
+    $(".dropdownRemoveId").each(function (index) {
         type = $('#salesAddItemButton').data('type');
-        if(type === 1){
-            $("#salesAddItemExternal").find("option[value='"+$(this).val()+"']").remove();
+        if (type === 1) {
+            $("#salesAddItemExternal").find("option[value='" + $(this).val() + "']").remove();
             $('#salesAddItemExternal').trigger("chosen:updated");
-        }else{
-            $("#salesAddItemInternal").find("option[value='"+$(this).val()+"']").remove();
+        } else {
+            $("#salesAddItemInternal").find("option[value='" + $(this).val() + "']").remove();
             $('#salesAddItemInternal').trigger("chosen:updated");
         }
 
@@ -269,7 +276,7 @@ jQuery(document).ready(function () {
                 data: {id: id},
                 success: function (data) {
                     if (data !== false) {
-                        if(type === 1){
+                        if (type === 1) {
                             $.ajax({
                                 url: baseUrl + '/sales/ajax-item-detail-external',
                                 type: 'post',
@@ -286,11 +293,11 @@ jQuery(document).ready(function () {
                                     }
                                 }
                             });
-                        }else{
+                        } else {
                             $.ajax({
                                 url: baseUrl + '/sales/ajax-item-detail-internal',
                                 type: 'post',
-                                data: {rmedicine_id: medicineId, format:1},
+                                data: {rmedicine_id: medicineId, format: 1},
                                 dataType: 'json',
                                 success: function (data) {
                                     if (data !== false) {

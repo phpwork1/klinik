@@ -135,9 +135,6 @@ class GpDetail extends \yii\db\ActiveRecord
         $key = empty($key) ? 'id' : $key;
         $value = empty($value) ? 'name' : $value;
         $map = ArrayHelper::map(self::getAll($value, $conditions), $key, $value);
-        if (empty($map)) {
-            Yii::$app->session->setFlash('danger', Yii::t('app', 'GpDetail database still empty. Please add the data as soon as possible.'));
-        }
         return $map;
     }
 
@@ -147,9 +144,6 @@ class GpDetail extends \yii\db\ActiveRecord
 
         foreach($gpDetails as $key => $value){
             $data[$value->id] = sprintf("%s | %s", $value->item->i_name, $value->gpd_price);
-        }
-        if (empty($data)) {
-            Yii::$app->session->setFlash('danger', Yii::t('app', 'GpDetail database still empty. Please add the data as soon as possible.'));
         }
         return $data;
     }

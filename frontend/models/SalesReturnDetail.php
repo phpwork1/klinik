@@ -2,34 +2,37 @@
 
 namespace frontend\models;
 
+use backend\models\RMedicine;
 use yii\helpers\ArrayHelper;
 use common\components\helpers\AppConst;
+
 //use yii\db\Expression;
 //use yii\behaviors\TimestampBehavior;
 //use yii\db\ActiveRecord;
 
 /**
- * This is the model class for table "sales_detail".
+ * This is the model class for table "sales_return_detail".
  *
  * @property integer $id
- * @property integer $sales_id
- * @property integer $item_id
- * @property integer $sd_quantity
- * @property integer $sd_discount
- * @property SalesDetail[] $map
+ * @property integer $sales_detail_id
+ * @property integer $sales_return_id
+ * @property string $srd_name
+ * @property integer $srd_quantity
+ * @property integer $srd_price
+ * @property integer $srd_total
+ * @property SalesReturnDetail[] $map
  *
- * @property Sales $sales
- * @property Item $item
- * @property SalesDetailInternal[] $salesDetailInternals
+ * @property SalesReturn $salesReturn
  */
-class SalesDetail extends \yii\db\ActiveRecord
+class SalesReturnDetail extends \yii\db\ActiveRecord
 {
+    public $itemDetailsMap = [];
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'sales_detail';
+        return 'sales_return_detail';
     }
 
     /**
@@ -38,10 +41,10 @@ class SalesDetail extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['sales_id', 'item_id', 'sd_quantity'], 'required', 'message' => AppConst::VALIDATE_REQUIRED],
-            [['sales_id', 'item_id', 'sd_quantity', 'sd_discount'], 'integer', 'message' => AppConst::VALIDATE_INTEGER],
-            [['sales_id'], 'exist', 'skipOnError' => true, 'targetClass' => Sales::className(), 'targetAttribute' => ['sales_id' => 'id']],
-            [['item_id'], 'exist', 'skipOnError' => true, 'targetClass' => Item::className(), 'targetAttribute' => ['item_id' => 'id']],
+            [['sales_detail_id', 'sales_return_id', 'srd_name', 'srd_quantity', 'srd_price', 'srd_total'], 'required', 'message' => AppConst::VALIDATE_REQUIRED],
+            [['sales_detail_id', 'sales_return_id', 'srd_quantity', 'srd_price', 'srd_total'], 'integer', 'message' => AppConst::VALIDATE_INTEGER],
+            [['srd_name'], 'string', 'max' => 50],
+            [['sales_return_id'], 'exist', 'skipOnError' => true, 'targetClass' => SalesReturn::className(), 'targetAttribute' => ['sales_return_id' => 'id']],
         ];
     }
 
@@ -52,11 +55,25 @@ class SalesDetail extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'sales_id' => 'Sales ID',
-            'item_id' => 'Item ID',
-            'sd_quantity' => 'Sd Quantity',
-            'sd_discount' => 'Sd Discount',
+            'sales_detail_id' => 'Detail Penjualan',
+            'sales_return_id' => 'Retur Penjualan',
+            'srd_name' => 'Nama Barang',
+            'srd_quantity' => 'Jumlah',
+            'srd_price' => 'Harga',
+            'srd_total' => 'Total Harga',
         ];
+    }
+
+    public function getItemDetails(){
+        $salesDetail = SalesDetail::find()->where(['id' => $this->sales_detail_id])->one();
+        $rMedicineId = $salesDetail->salesDetailInternals[0]->r_medicine_id;
+        $rmDetails = RMedicine::find()->where(['id' => $rMedicineId])->one()->rmDetails;
+
+        foreach($rmDetails as $key => $value) {
+            $this->itemDetailsMap[] = [
+                'name' => $value->item->i_name . " >> " . $value->rmd_amount . " x Rp. " . number_format($salesDetail->item->i_blend_price, 0, '.', ',') . " = Rp. " . number_format($value->rmd_amount * $salesDetail->item->i_blend_price, 0, '.', ','),
+            ];
+        }
     }
 
     /**
@@ -94,7 +111,7 @@ class SalesDetail extends \yii\db\ActiveRecord
     * @return \yii\db\ActiveRecord[]
     */
     public static function getAll($value = 'name', $conditions = null) {
-        $query = SalesDetail::find()->orderBy([$value => SORT_ASC]);
+        $query = SalesReturnDetail::find()->orderBy([$value => SORT_ASC]);
         if (!empty($conditions)) {
             $query->andWhere($conditions);
         }
@@ -119,24 +136,8 @@ class SalesDetail extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getSales()
+    public function getSalesReturn()
     {
-        return $this->hasOne(Sales::className(), ['id' => 'sales_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getItem()
-    {
-        return $this->hasOne(Item::className(), ['id' => 'item_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getSalesDetailInternals()
-    {
-        return $this->hasMany(SalesDetailInternal::className(), ['sales_detail_id' => 'id']);
+        return $this->hasOne(SalesReturn::className(), ['id' => 'sales_return_id']);
     }
 }

@@ -107,9 +107,6 @@ class Job extends \yii\db\ActiveRecord
         $key = empty($key) ? 'id' : $key;
         $value = empty($value) ? 'name' : $value;
         $map = ArrayHelper::map(self::getAll($value, $conditions), $key, $value);
-        if (empty($map)) {
-            Yii::$app->session->setFlash('danger', Yii::t('app', 'Job database still empty. Please add the data as soon as possible.'));
-        }
         $map = array("" => '--Silahkan Pilih--') + $map;
         return $map;
     }

@@ -16,9 +16,16 @@ class RegistrationSearch extends Registration
     public $dateTo;
     public $dateFrom;
 
+    public $formNameParam = 'RegistrationSearch';
+
     /**
      * @inheritdoc
      */
+
+    public function formName(){
+        return $this->formNameParam;
+    }
+
     public function rules()
     {
         return [
@@ -69,6 +76,7 @@ class RegistrationSearch extends Registration
         ]);
         $dataProvider->pagination->pageParam = 'dp1';
         $dataProvider->pagination->pageSizeParam = 'dp1-size';
+        $dataProvider->sort->sortParam = 'sp1';
 
         $dataProvider->sort->attributes['created_by'] = [
             'asc' => ['user.username' => SORT_ASC],
@@ -126,6 +134,7 @@ class RegistrationSearch extends Registration
 
         $dataProvider->pagination->pageParam = 'dp2';
         $dataProvider->pagination->pageSizeParam = 'dp2-size';
+        $dataProvider->sort->sortParam = 'sp2';
 
         $dataProvider->sort->attributes['created_by'] = [
             'asc' => ['user.username' => SORT_ASC],

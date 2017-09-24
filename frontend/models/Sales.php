@@ -3,10 +3,12 @@
 namespace frontend\models;
 
 use backend\models\Registration;
+use backend\models\RMedicine;
 use common\components\helpers\AppConst;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\base\Exception;
+
 //use yii\db\Expression;
 //use yii\behaviors\TimestampBehavior;
 //use yii\db\ActiveRecord;
@@ -132,8 +134,9 @@ class Sales extends \yii\db\ActiveRecord
         }
     }
 
-    public function getInvoiceNumber(){
-        return sprintf("%s%03d",Yii::$app->formatter->asDate(time(), 'YMMdd'),Sales::find()->where(['s_date' => Yii::$app->formatter->asDate(time(), AppConst::FORMAT_DB_DATE_PHP)])->count()+1);
+    public function getInvoiceNumber()
+    {
+        return sprintf("%s%03d", Yii::$app->formatter->asDate(time(), 'YMMdd'), Sales::find()->where(['s_date' => Yii::$app->formatter->asDate(time(), AppConst::FORMAT_DB_DATE_PHP)])->count() + 1);
     }
 
     public function saveTransactional()
@@ -161,7 +164,7 @@ class Sales extends \yii\db\ActiveRecord
                     $salesTypeTuple->sales_id = $salesId;
                     $registrationModel = Registration::findOne(['id' => $request['SalesType']['registration_id']]);
                     $registrationModel->r_paid = 1;
-                    if(!$registrationModel->save()){
+                    if (!$registrationModel->save()) {
                         $errors = array_merge($errors, $salesTypeTuple->errors);
                         throw new Exception();
                     }
@@ -226,10 +229,52 @@ class Sales extends \yii\db\ActiveRecord
         $key = empty($key) ? 'id' : $key;
         $value = empty($value) ? 'name' : $value;
         $map = ArrayHelper::map(self::getAll($value, $conditions), $key, $value);
-        if (empty($map)) {
-            Yii::$app->session->setFlash('danger', Yii::t('app', 'Sales database still empty. Please add the data as soon as possible.'));
-        }
         return $map;
+    }
+
+    public static function customMap()
+    {
+        $map = [];
+        $allSales = Sales::find()->all();
+        foreach ($allSales as $key => $value) {
+            $name = sprintf("%s | %s", $value->s_invoice_number, empty($value->salesTypes) ? "External" : "Internal");
+            $map[] = [
+                'id' => $value->id,
+                'name' => $name,
+            ];
+        }
+        $map = ArrayHelper::map($map, 'id', 'name');
+        return $map;
+    }
+
+    public static function getSalesItemList($id = null, $toMap = false)
+    {
+        if (!is_null($id)) {
+            $sales = Sales::find()->where(['id' => $id])->one();
+            $map = [];
+            if (empty($sales->salesTypes)) {
+                foreach ($sales->salesDetails as $key => $value) {
+                    $map[] = [
+                        'id' => $value->id,
+                        'name' => $value->item->i_name,
+                    ];
+                }
+            }else{
+                foreach ($sales->salesDetails as $key => $value) {
+                    $salesInternal = SalesDetailInternal::find()->where(['sales_detail_id' => $value->id])->one();
+                    $rMedicine = RMedicine::find()->where(['id' => $salesInternal->r_medicine_id])->one();
+                    $map[] = [
+                        'id' => $value->id,
+                        'name' => sprintf("%s %s >>  %s(%s X %s) >>  %s", $rMedicine->item->i_blended == 1 ? "(RACIKAN)" : "",$rMedicine->item->i_name,$rMedicine->rmr_amount, $rMedicine->rmr_dosage_1, $rMedicine->rmr_dosage_2, $rMedicine->rmr_dosage_3, $rMedicine->rmr_ref),
+                    ];
+                }
+            }
+            if($toMap) {
+                $map = ArrayHelper::map($map, 'id', 'name');
+            }
+            return $map;
+        }
+        return false;
     }
 
 

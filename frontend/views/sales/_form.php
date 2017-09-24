@@ -47,7 +47,7 @@ Modal::end();
     echo Html::activeHiddenInput($salesType, 'sales_id');
 } ?>
 <div class="box box-primary">
-    <div class="box-body goods-purchase-form">
+    <div class="box-body sales-form">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-xs-12 col-md-4">
@@ -145,6 +145,7 @@ Modal::end();
                                     <?= Html::hiddenInput("total", $detail->item->i_sell_price * $detail->sd_quantity * (1 - ($detail->sd_discount / 100)), ['data-cell' => "A$keyD"]); ?>
                                 </td>
                             <?php } else { ?>
+                                <?php if($detail->item->i_blended == 0){ $totalBlendPrice = $detail->item->i_sell_price;} ?>
                                 <td class="text-center"><?= sprintf("Rp. %s", number_format($totalBlendPrice,0, '.', ',')); ?></td>
                                 <td class="text-center"><?= $detail->sd_quantity ?></td>
                                 <td class="text-center">

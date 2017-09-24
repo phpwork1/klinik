@@ -82,8 +82,8 @@ class PatientController extends Controller
         $model = new Patient();
 
         if ($model->load(Yii::$app->request->post()) && $model->saveTransactional()) {
-            Yii::$app->session->setFlash('success', Yii::t('app', 'Patient successfully created.'));
-            return $this->redirect(['view', 'id' => $model->id]);
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Pasien Berhasil Disimpan.'));
+            return $this->redirect(['index']);
             } else {
             return $this->render('create', ['model' => $model]);
         }
@@ -100,8 +100,8 @@ class PatientController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', Yii::t('app', 'Patient successfully updated.'));
-            return $this->redirect(['view', 'id' => $model->id]);
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Pasien Berhasil Diubah.'));
+            return $this->redirect(['index']);
         } else {
             return $this->render('update', ['model' => $model]);
         }
@@ -117,7 +117,7 @@ class PatientController extends Controller
     {
         $this->findModel($id)->delete();
 
-        Yii::$app->session->setFlash('success', Yii::t('app', 'Patient successfully deleted.'));
+        Yii::$app->session->setFlash('success', Yii::t('app', 'Pasien Berhasil Dihapus.'));
         return $this->redirect(['index']);
     }
 

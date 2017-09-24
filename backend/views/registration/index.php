@@ -40,7 +40,7 @@ $gridColumns = [
             'language' => 'id',
             'dateFormat' => 'dd-MM-yyyy',
             'attribute' => 'r_date',
-            'options' => ['class' => 'form-control'],
+            'options' => ['id' => 'date1', 'class' => 'form-control'],
         ]),
     ],
     [
@@ -75,6 +75,40 @@ $gridColumns = [
     ?>
 
 </div>
+<?php
+$gridColumns2 = [
+    ['class' => 'yii\grid\SerialColumn'],
+    'r_number',
+    [
+        'attribute' => 'r_date',
+        'value' => 'r_date',
+        'filter' => \yii\jui\DatePicker::widget([
+            'model' => $searchModelAfterCheck,
+            'language' => 'id',
+            'dateFormat' => 'dd-MM-yyyy',
+            'attribute' => 'r_date',
+            'options' => ['id' => 'date2', 'class' => 'form-control'],
+        ]),
+    ],
+    [
+        'attribute' => 'patient_id',
+        'value' => 'patient.p_name',
+        'label' => 'Nama Pasien',
+        'filter' => Html::activeDropDownList($searchModel, 'patient_id', \backend\models\Patient::map(), ['class' => 'chosen-select form-control'])
+    ],
+    [
+        'attribute' => 'r_position',
+        'value' => 'r_position_desc',
+        'filter' => Html::activeDropDownList($searchModel, 'r_position', $searchModel->actionList, ['class' => 'chosen-select form-control', 'prompt' => '--Silahkan Pilih--'])
+    ],
+    ['class' => 'yii\grid\ActionColumn',
+        'buttons' => $buttons,
+        'header' => 'Actions',
+        'template' => '{update} {delete} {process}',
+        'contentOptions' => ['class' => 'text-nowrap'],
+    ],
+];
+?>
 <div class=box>
     <div class="box-header with-border">
         <h3 class="box-title">Pasien Telah Diperiksa</h3>
@@ -83,7 +117,7 @@ $gridColumns = [
     echo GridView::widget([
         'dataProvider' => $dataProviderAfterCheck,
         'filterModel' => $searchModelAfterCheck,
-        'columns' => $gridColumns,
+        'columns' => $gridColumns2,
     ]);
     ?>
 

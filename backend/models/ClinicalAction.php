@@ -103,9 +103,6 @@ class ClinicalAction extends \yii\db\ActiveRecord
         $key = empty($key) ? 'id' : $key;
         $value = empty($value) ? 'ca_name' : $value;
         $map = ArrayHelper::map(self::getAll($value, $conditions), $key, $value);
-        if (empty($map)) {
-            Yii::$app->session->setFlash('danger', Yii::t('app', 'ClinicalAction database still empty. Please add the data as soon as possible.'));
-        }
         return $map;
     }
 

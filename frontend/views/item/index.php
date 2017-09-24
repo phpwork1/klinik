@@ -56,7 +56,7 @@ $gridColumns = [
     ],
     ['class' => 'yii\grid\ActionColumn',
         'header' => 'Actions',
-        'template' => '{view} {update} {delete}',
+        'template' => '{update} {delete}',
         'contentOptions' => ['class' => 'text-nowrap'],
         ],
     ];

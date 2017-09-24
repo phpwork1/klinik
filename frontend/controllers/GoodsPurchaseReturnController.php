@@ -89,7 +89,7 @@ class GoodsPurchaseReturnController extends Controller
         $itemList = [];
 
         if ($model->load(Yii::$app->request->post()) && $model->saveTransactional()) {
-            Yii::$app->session->setFlash('success', Yii::t('app', 'GoodsPurchaseReturn successfully created.'));
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Retur Pembelian Berhasil Disimpan.'));
             return $this->redirect(['index']);
         } else {
             $model->gpr_date = time();
@@ -115,7 +115,7 @@ class GoodsPurchaseReturnController extends Controller
         $itemList = GpDetail::dropdownItemMap($model->goods_purchase_id);
 
         if ($model->load(Yii::$app->request->post()) && $model->saveTransactional()) {
-            Yii::$app->session->setFlash('success', Yii::t('app', 'GoodsPurchaseReturn successfully updated.'));
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Retur Pembelian Berhasil Diubah.'));
             return $this->redirect(['index']);
         } else {
             return $this->render('update', [
@@ -136,7 +136,7 @@ class GoodsPurchaseReturnController extends Controller
     {
         $this->findModel($id)->delete();
 
-        Yii::$app->session->setFlash('success', Yii::t('app', 'GoodsPurchaseReturn successfully deleted.'));
+        Yii::$app->session->setFlash('success', Yii::t('app', 'Retur Pembelian Berhasil Dihapus.'));
         return $this->redirect(['index']);
     }
 

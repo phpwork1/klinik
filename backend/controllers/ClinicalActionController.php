@@ -82,7 +82,7 @@ class ClinicalActionController extends Controller
         $model = new ClinicalAction();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', Yii::t('app', 'ClinicalAction successfully created.'));
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Data Praktik Klinik Berhasil Disimpan.'));
             return $this->redirect(['view', 'id' => $model->id]);
             } else {
             return $this->render('create', ['model' => $model]);
@@ -100,7 +100,7 @@ class ClinicalActionController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', Yii::t('app', 'ClinicalAction successfully updated.'));
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Data Praktik Klinik Berhasil Diubah.'));
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', ['model' => $model]);
@@ -117,7 +117,7 @@ class ClinicalActionController extends Controller
     {
         $this->findModel($id)->delete();
 
-        Yii::$app->session->setFlash('success', Yii::t('app', 'ClinicalAction successfully deleted.'));
+        Yii::$app->session->setFlash('success', Yii::t('app', 'Data Praktik Klinik Berhasil Dihapus.'));
         return $this->redirect(['index']);
     }
 

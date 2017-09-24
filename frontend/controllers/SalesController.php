@@ -133,7 +133,7 @@ class SalesController extends Controller
         }
 
         if ($model->load(Yii::$app->request->post()) && $model->saveTransactional()) {
-            Yii::$app->session->setFlash('success', Yii::t('app', 'Sales successfully created.'));
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Data Penjualan Barang Berhasil Disimpan.'));
             return $this->redirect(['index', 'type' => $this->type]);
         } else {
             $model->s_date = time();
@@ -176,7 +176,7 @@ class SalesController extends Controller
         }
 
         if ($model->load(Yii::$app->request->post()) && $model->saveTransactional()) {
-            Yii::$app->session->setFlash('success', Yii::t('app', 'Sales successfully updated.'));
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Data Penjualan Barang Berhasil Diubah.'));
             return $this->redirect(['index', 'type' => $this->type]);
         } else {
             return $this->render('update', [
@@ -200,7 +200,7 @@ class SalesController extends Controller
     {
         $this->findModel($id)->delete();
 
-        Yii::$app->session->setFlash('success', Yii::t('app', 'Sales successfully deleted.'));
+        Yii::$app->session->setFlash('success', Yii::t('app', 'Data Penjualan Barang Berhasil Dihapus.'));
         return $this->redirect(['index', 'type' => $this->type]);
     }
 

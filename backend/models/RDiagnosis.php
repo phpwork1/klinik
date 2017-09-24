@@ -2,7 +2,6 @@
 
 namespace backend\models;
 
-use Yii;
 use yii\helpers\ArrayHelper;
 use common\components\helpers\AppConst;
 
@@ -108,9 +107,6 @@ class RDiagnosis extends \yii\db\ActiveRecord
         $key = empty($key) ? 'id' : $key;
         $value = empty($value) ? 'name' : $value;
         $map = ArrayHelper::map(self::getAll($value, $conditions), $key, $value);
-        if (empty($map)) {
-            Yii::$app->session->setFlash('danger', Yii::t('app', 'RDiagnosis database still empty. Please add the data as soon as possible.'));
-        }
         return $map;
     }
 

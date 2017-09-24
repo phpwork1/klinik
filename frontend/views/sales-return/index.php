@@ -4,15 +4,15 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel frontend\models\GoodsPurchaseReturnSearch */
+/* @var $searchModel frontend\models\SalesReturnSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Retur Pembelian';
+$this->title = 'Retur Penjualan';
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['buttons'] = [
     Html::a('<i class="glyphicon glyphicon-plus"></i>', ['create'], [
         'type' => 'button',
-        'title' => 'Add Goods Purchase Returns',
+        'title' => 'Add Sales Returns',
         'class' => 'btn btn-success'
     ]) . ' ' .
     Html::a('<i class="glyphicon glyphicon-repeat"></i>', ['index'], [
@@ -24,14 +24,14 @@ $this->params['buttons'] = [
 
 $gridColumns = [
     ['class' => 'yii\grid\SerialColumn'],
-    'gpr_return_number',
+    'sr_return_number',
+    'sr_date',
     [
-        'attribute' => 'goods_purchase_id',
-        'value' => 'goodsPurchase.gp_invoice_number'
+        'attribute' => 'sales_id',
+        'value' => 'sales.s_invoice_number'
     ],
-    'gpr_date',
-    'gpr_supplier_name',
-    'gpr_total_return',
+    'sr_buyer',
+    'sr_total_return',
     ['class' => 'yii\grid\ActionColumn',
         'header' => 'Actions',
         'template' => '{update} {delete}',

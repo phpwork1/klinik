@@ -68,7 +68,7 @@ class SalesSearch extends Sales
         $this->load($params);
 
         if($this->s_date != '') {
-            $this->v = Yii::$app->formatter->asDate($this->s_date, AppConst::FORMAT_DB_DATE_PHP);
+            $this->s_date = Yii::$app->formatter->asDate($this->s_date, AppConst::FORMAT_DB_DATE_PHP);
         }
 
         if (!$this->validate()) {
@@ -117,7 +117,7 @@ class SalesSearch extends Sales
         $this->load($params);
 
         if($this->s_date != '') {
-            $this->v = Yii::$app->formatter->asDate($this->s_date, AppConst::FORMAT_DB_DATE_PHP);
+            $this->s_date = Yii::$app->formatter->asDate($this->s_date, AppConst::FORMAT_DB_DATE_PHP);
         }
 
         if (!$this->validate()) {

@@ -2,7 +2,6 @@
 
 namespace frontend\models;
 
-use Yii;
 use yii\helpers\ArrayHelper;
 use common\components\helpers\AppConst;
 use backend\models\Registration;
@@ -109,9 +108,6 @@ class SalesType extends \yii\db\ActiveRecord
         $key = empty($key) ? 'id' : $key;
         $value = empty($value) ? 'name' : $value;
         $map = ArrayHelper::map(self::getAll($value, $conditions), $key, $value);
-        if (empty($map)) {
-            Yii::$app->session->setFlash('danger', Yii::t('app', 'SalesType database still empty. Please add the data as soon as possible.'));
-        }
         return $map;
     }
 

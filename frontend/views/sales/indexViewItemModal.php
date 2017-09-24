@@ -63,6 +63,7 @@ $totalPrice = 0;
                                     <?php $totalPrice += $detail->item->i_sell_price * $detail->sd_quantity * (1 - ($detail->sd_discount / 100)); ?>
                                 </td>
                             <?php } else { ?>
+                                <?php if($detail->item->i_blended == 0){ $totalBlendPrice = $detail->item->i_sell_price;} ?>
                                 <td class="text-center"><?= sprintf("Rp. %s", number_format($totalBlendPrice,0, '.', ',')); ?></td>
                                 <td class="text-center"><?= $detail->sd_quantity ?></td>
                                 <td class="text-center">

@@ -82,7 +82,7 @@ class GoodsPurchaseController extends Controller
         $requestData = Yii::$app->request->post();
 
         if ($model->load($requestData)  && $model->saveTransactional()) {
-            Yii::$app->session->setFlash('success', Yii::t('app', 'GoodsPurchase successfully created.'));
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Data Pembelian Barang Berhasil Disimpan.'));
             return $this->redirect(['index']);
             } else {
             $model->gp_date = time();
@@ -149,7 +149,7 @@ class GoodsPurchaseController extends Controller
         $requestData = Yii::$app->request->post();
 
         if ($model->load($requestData)  && $model->saveTransactional()) {
-            Yii::$app->session->setFlash('success', Yii::t('app', 'GoodsPurchase successfully updated.'));
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Data Pembelian Barang Berhasil Diubah.'));
             return $this->redirect(['index']);
         } else {
             return $this->render('update', [
@@ -171,7 +171,7 @@ class GoodsPurchaseController extends Controller
     {
         $this->findModel($id)->delete();
 
-        Yii::$app->session->setFlash('success', Yii::t('app', 'GoodsPurchase successfully deleted.'));
+        Yii::$app->session->setFlash('success', Yii::t('app', 'Data Pembelian Barang Berhasil Dihapus.'));
         return $this->redirect(['index']);
     }
 

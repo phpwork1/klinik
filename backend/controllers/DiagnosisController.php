@@ -82,7 +82,7 @@ class DiagnosisController extends Controller
         $model = new Diagnosis();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', Yii::t('app', 'Diagnosis successfully created.'));
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Diagnosis Berhasil Disimpan.'));
             return $this->redirect(['view', 'id' => $model->id]);
             } else {
             return $this->render('create', ['model' => $model]);
@@ -100,7 +100,7 @@ class DiagnosisController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', Yii::t('app', 'Diagnosis successfully updated.'));
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Diagnosis Berhasil Diubah.'));
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', ['model' => $model]);
@@ -117,7 +117,7 @@ class DiagnosisController extends Controller
     {
         $this->findModel($id)->delete();
 
-        Yii::$app->session->setFlash('success', Yii::t('app', 'Diagnosis successfully deleted.'));
+        Yii::$app->session->setFlash('success', Yii::t('app', 'Diagnosis Berhasil Dihapus.'));
         return $this->redirect(['index']);
     }
 

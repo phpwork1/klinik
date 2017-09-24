@@ -82,8 +82,8 @@ class ItemController extends Controller
         $model = new Item();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', Yii::t('app', 'Item successfully created.'));
-            return $this->redirect(['view', 'id' => $model->id]);
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Barang Berhasil Disimpan.'));
+            return $this->redirect(['index']);
             } else {
             return $this->render('create', ['model' => $model]);
         }
@@ -100,8 +100,8 @@ class ItemController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', Yii::t('app', 'Item successfully updated.'));
-            return $this->redirect(['view', 'id' => $model->id]);
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Barang Berhasil Diubah.'));
+            return $this->redirect(['index']);
         } else {
             return $this->render('update', ['model' => $model]);
         }
@@ -117,7 +117,7 @@ class ItemController extends Controller
     {
         $this->findModel($id)->delete();
 
-        Yii::$app->session->setFlash('success', Yii::t('app', 'Item successfully deleted.'));
+        Yii::$app->session->setFlash('success', Yii::t('app', 'Barang Berhasil Dihapus.'));
         return $this->redirect(['index']);
     }
 

@@ -8,7 +8,6 @@ use frontend\models\SupplierSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\helpers\Html;
 /**
  * SupplierController implements the CRUD actions for Supplier model.
  */
@@ -82,7 +81,7 @@ class SupplierController extends Controller
         $model = new Supplier();
 
         if ($model->load(Yii::$app->request->post()) && $model->saveTransactional()) {
-            Yii::$app->session->setFlash('success', Yii::t('app', 'Supplier successfully created.'));
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Suplier Berhasil Disimpan.'));
             return $this->redirect(['view', 'id' => $model->id]);
             } else {
             return $this->render('create', ['model' => $model]);
@@ -100,7 +99,7 @@ class SupplierController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->saveTransactional()) {
-            Yii::$app->session->setFlash('success', Yii::t('app', 'Supplier successfully updated.'));
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Suplier Berhasil Diubah.'));
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', ['model' => $model]);
@@ -117,7 +116,7 @@ class SupplierController extends Controller
     {
         $this->findModel($id)->delete();
 
-        Yii::$app->session->setFlash('success', Yii::t('app', 'Supplier successfully deleted.'));
+        Yii::$app->session->setFlash('success', Yii::t('app', 'Suplier Berhasil Dihapus.'));
         return $this->redirect(['index']);
     }
 

@@ -82,7 +82,7 @@ class ItemCategoryController extends Controller
         $model = new ItemCategory();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', Yii::t('app', 'ItemCategory successfully created.'));
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Jenis Barang Berhasil Ditambah.'));
             return $this->redirect(['view', 'id' => $model->id]);
             } else {
             return $this->render('create', ['model' => $model]);
@@ -100,7 +100,7 @@ class ItemCategoryController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', Yii::t('app', 'ItemCategory successfully updated.'));
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Jenis Barang Berhasil Diubah.'));
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', ['model' => $model]);
@@ -117,7 +117,7 @@ class ItemCategoryController extends Controller
     {
         $this->findModel($id)->delete();
 
-        Yii::$app->session->setFlash('success', Yii::t('app', 'ItemCategory successfully deleted.'));
+        Yii::$app->session->setFlash('success', Yii::t('app', 'Jenis Barang Berhasil Dihapus.'));
         return $this->redirect(['index']);
     }
 

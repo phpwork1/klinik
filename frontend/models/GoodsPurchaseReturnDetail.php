@@ -3,7 +3,6 @@
 namespace frontend\models;
 
 use common\components\helpers\AppConst;
-use Yii;
 use yii\helpers\ArrayHelper;
 //use yii\db\Expression;
 //use yii\behaviors\TimestampBehavior;
@@ -115,9 +114,6 @@ class GoodsPurchaseReturnDetail extends \yii\db\ActiveRecord
         $key = empty($key) ? 'id' : $key;
         $value = empty($value) ? 'name' : $value;
         $map = ArrayHelper::map(self::getAll($value, $conditions), $key, $value);
-        if (empty($map)) {
-            Yii::$app->session->setFlash('danger', Yii::t('app', 'GoodsPurchaseReturnDetail database still empty. Please add the data as soon as possible.'));
-        }
         return $map;
     }
 

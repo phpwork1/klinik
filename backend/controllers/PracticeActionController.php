@@ -82,7 +82,7 @@ class PracticeActionController extends Controller
         $model = new PracticeAction();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', Yii::t('app', 'PracticeAction successfully created.'));
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Data Praktik Dokter Berhasil Disimpan.'));
             return $this->redirect(['view', 'id' => $model->id]);
             } else {
             return $this->render('create', ['model' => $model]);
@@ -100,7 +100,7 @@ class PracticeActionController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', Yii::t('app', 'PracticeAction successfully updated.'));
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Data Praktik Dokter Berhasil Diubah.'));
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', ['model' => $model]);
@@ -117,7 +117,7 @@ class PracticeActionController extends Controller
     {
         $this->findModel($id)->delete();
 
-        Yii::$app->session->setFlash('success', Yii::t('app', 'PracticeAction successfully deleted.'));
+        Yii::$app->session->setFlash('success', Yii::t('app', 'Data Praktik Dokter Berhasil Dihapus.'));
         return $this->redirect(['index']);
     }
 

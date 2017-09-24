@@ -135,7 +135,17 @@ if($type == \frontend\controllers\SalesController::SALES_TYPE_INTERNAL){
     $gridColumns = [
         ['class' => 'yii\grid\SerialColumn'],
         's_invoice_number',
-        's_date',
+        [
+            'attribute' => 's_date',
+            'value' => 's_date',
+            'filter' => \yii\jui\DatePicker::widget([
+                'model' => $searchModel,
+                'language' => 'id',
+                'dateFormat' => 'dd-MM-yyyy',
+                'attribute' => 's_date',
+                'options' => ['class' => 'form-control'],
+            ]),
+        ],
         's_buyer',
         's_total_paid',
         ['class' => 'yii\grid\ActionColumn',

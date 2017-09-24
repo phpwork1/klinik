@@ -69,13 +69,13 @@ class RegistrationController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new RegistrationSearch();
+        $searchModel = new RegistrationSearch(['formNameParam' => 'beforeCheck']);
         //bisa di taruh di search
         $searchModel->r_date = Yii::$app->formatter->asDate(time(), AppConst::FORMAT_DB_DATE_PHP);
         $searchModel->r_checked = 0;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        $searchModelAfterCheck = new RegistrationSearch();
+        $searchModelAfterCheck = new RegistrationSearch(['formNameParam' => 'afterCheck']);
         $searchModelAfterCheck->r_date = Yii::$app->formatter->asDate(time(), AppConst::FORMAT_DB_DATE_PHP);
         $searchModelAfterCheck->r_checked = 1;
         $dataProviderAfterCheck = $searchModelAfterCheck->searchAfterCheck(Yii::$app->request->queryParams);
@@ -108,7 +108,7 @@ class RegistrationController extends Controller
         $model = new Registration();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', Yii::t('app', 'Registration successfully created.'));
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Registrasi Berhasil Disimpan.'));
             return $this->redirect(['index']);
         } else {
             $model->r_date = time();
@@ -127,7 +127,7 @@ class RegistrationController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', Yii::t('app', 'Registration successfully updated.'));
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Registrasi Berhasil Diproses.'));
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', ['model' => $model]);
@@ -144,7 +144,7 @@ class RegistrationController extends Controller
     {
         $this->findModel($id)->delete();
 
-        Yii::$app->session->setFlash('success', Yii::t('app', 'Registration successfully deleted.'));
+        Yii::$app->session->setFlash('success', Yii::t('app', 'Registrasi Berhasil Dihapus.'));
         return $this->redirect(['index']);
     }
 
@@ -174,7 +174,7 @@ class RegistrationController extends Controller
         $rmDetail = new RmDetail();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', Yii::t('app', 'Registration successfully updated.'));
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Registration Berhasil Diproses.'));
             return $this->redirect(['index']);
         } else {
             return $this->render('process', [

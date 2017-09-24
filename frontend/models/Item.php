@@ -64,7 +64,7 @@ class Item extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['i_blended', 'item_category_id', 'i_name', 'i_buy_price', 'i_sell_price', 'i_stock_amount'], 'required', 'message' => AppConst::VALIDATE_REQUIRED],
+            [['i_blend_price', 'i_blended', 'item_category_id', 'i_name', 'i_buy_price', 'i_sell_price', 'i_stock_amount'], 'required', 'message' => AppConst::VALIDATE_REQUIRED],
             [['item_category_id', 'i_buy_price', 'i_sell_price', 'i_ppn', 'i_retail_price', 'i_net_price', 'i_blend_price', 'i_stock_amount', 'i_stock_min', 'i_stock_max'], 'integer', 'message' => AppConst::VALIDATE_INTEGER],
             [['i_description'], 'string'],
             [['i_expired_date'], 'safe'],
@@ -183,9 +183,6 @@ class Item extends \yii\db\ActiveRecord
         $key = empty($key) ? 'id' : $key;
         $value = empty($value) ? 'i_name' : $value;
         $map = ArrayHelper::map(self::getAll($value, $conditions), $key, $value);
-        if (empty($map)) {
-            Yii::$app->session->setFlash('danger', Yii::t('app', 'Item database still empty. Please add the data as soon as possible.'));
-        }
         return $map;
     }
 

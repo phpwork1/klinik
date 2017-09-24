@@ -82,7 +82,7 @@ class JobController extends Controller
         $model = new Job();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', Yii::t('app', 'Job successfully created.'));
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Data Pekerjaan Berhasil Disimpan.'));
             return $this->redirect(['view', 'id' => $model->id]);
             } else {
             return $this->render('create', ['model' => $model]);
@@ -100,7 +100,7 @@ class JobController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', Yii::t('app', 'Job successfully updated.'));
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Data Pekerjaan Berhasil Diubah.'));
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', ['model' => $model]);
@@ -117,7 +117,7 @@ class JobController extends Controller
     {
         $this->findModel($id)->delete();
 
-        Yii::$app->session->setFlash('success', Yii::t('app', 'Job successfully deleted.'));
+        Yii::$app->session->setFlash('success', Yii::t('app', 'Data Pekerjaan Berhasil Dihapus.'));
         return $this->redirect(['index']);
     }
 

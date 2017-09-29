@@ -121,16 +121,16 @@ Modal::end();
                             <td>
                                 <?= $detail->item->i_name ?>
                                 <?php if ($type == \frontend\controllers\SalesController::SALES_TYPE_EXTERNAL) : ?>
-                                    <?= Html::hiddenInput("dropdownRemoveId", $detail->item_id, ['class' => 'dropdownRemoveId itemName', 'data-type' => $type])?>
+                                    <?= Html::hiddenInput("dropdownRemoveId", $detail->item_id, ['class' => 'dropdownRemoveId itemName', 'data-type' => $type]) ?>
                                 <?php endif; ?>
                                 <?php if ($type == \frontend\controllers\SalesController::SALES_TYPE_INTERNAL) : ?>
-                                    <?= Html::hiddenInput("itemName", $detail->item_id, ['class' => 'itemName', 'data-type' => $type, 'data-medicine' =>$detail->salesDetailInternals[0]->r_medicine_id])?>
-                                    <?= Html::hiddenInput("dropdownRemoveId", $detail->salesDetailInternals[0]->r_medicine_id, ['class' => 'dropdownRemoveId'])?>
+                                    <?= Html::hiddenInput("itemName", $detail->item_id, ['class' => 'itemName', 'data-type' => $type, 'data-medicine' => $detail->salesDetailInternals[0]->r_medicine_id]) ?>
+                                    <?= Html::hiddenInput("dropdownRemoveId", $detail->salesDetailInternals[0]->r_medicine_id, ['class' => 'dropdownRemoveId']) ?>
                                     <ul>
                                         <?php foreach ($detail->salesDetailInternals[0]->rMedicine->rmDetails as $keyR => $rmDetail) : ?>
                                             <?php $totalBlendPrice += $rmDetail->rmd_amount * $rmDetail->item->i_blend_price; ?>
                                             <li>
-                                                <?= sprintf("%s >> %s x Rp. %s = Rp. %s", $rmDetail->item->i_name, $rmDetail->rmd_amount, number_format($rmDetail->item->i_blend_price,0,'.', ','), number_format($rmDetail->rmd_amount * $rmDetail->item->i_blend_price,0,'.',',')); ?>
+                                                <?= sprintf("%s >> %s x Rp. %s = Rp. %s", $rmDetail->item->i_name, $rmDetail->rmd_amount, number_format($rmDetail->item->i_blend_price, 0, '.', ','), number_format($rmDetail->rmd_amount * $rmDetail->item->i_blend_price, 0, '.', ',')); ?>
                                             </li>
                                         <?php endforeach; ?>
                                     </ul>
@@ -141,15 +141,17 @@ Modal::end();
                                 <td class="text-center"><?= $detail->sd_quantity ?></td>
                                 <td class="text-center"><?= $detail->sd_discount ?></td>
                                 <td class="text-center">
-                                    <?= sprintf("Rp. %s", number_format($detail->item->i_sell_price * $detail->sd_quantity * (1 - ($detail->sd_discount / 100)),0, '.', ',')); ?>
+                                    <?= sprintf("Rp. %s", number_format($detail->item->i_sell_price * $detail->sd_quantity * (1 - ($detail->sd_discount / 100)), 0, '.', ',')); ?>
                                     <?= Html::hiddenInput("total", $detail->item->i_sell_price * $detail->sd_quantity * (1 - ($detail->sd_discount / 100)), ['data-cell' => "A$keyD"]); ?>
                                 </td>
                             <?php } else { ?>
-                                <?php if($detail->item->i_blended == 0){ $totalBlendPrice = $detail->item->i_sell_price;} ?>
-                                <td class="text-center"><?= sprintf("Rp. %s", number_format($totalBlendPrice,0, '.', ',')); ?></td>
+                                <?php if ($detail->item->i_blended == 0) {
+                                    $totalBlendPrice = $detail->item->i_sell_price;
+                                } ?>
+                                <td class="text-center"><?= sprintf("Rp. %s", number_format($totalBlendPrice, 0, '.', ',')); ?></td>
                                 <td class="text-center"><?= $detail->sd_quantity ?></td>
                                 <td class="text-center">
-                                    <?= sprintf("Rp. %s", number_format($totalBlendPrice * $detail->sd_quantity * (1 - ($detail->sd_discount / 100)),0, '.', ',')); ?>
+                                    <?= sprintf("Rp. %s", number_format($totalBlendPrice * $detail->sd_quantity * (1 - ($detail->sd_discount / 100)), 0, '.', ',')); ?>
                                     <?= Html::hiddenInput("total", $totalBlendPrice * $detail->sd_quantity * (1 - ($detail->sd_discount / 100)), ['data-cell' => "A$keyD"]); ?>
                                 </td>
                             <?php } ?>
@@ -175,71 +177,79 @@ Modal::end();
             </div>
 
             <div class="row">
-                <div class="col-xs-12 col-md-6">
-                    <?= $form->field($model, "s_buyer", ['template' => AppConst::ACTIVE_FORM_TEMPLATE_DEFAULT])
-                        ->textInput(['maxlength' => true, 'class' => 'form-control', 'value' => $type == 1 ? $model->s_buyer : $registrationModel->patient->p_name])
-                        ->label(null, ['class' => AppConst::ACTIVE_FORM_CLASS_LABEL_COL_3]); ?>
-                </div>
-                <div class="col-xs-12 col-md-6">
+                <?php if ($type == \frontend\controllers\SalesController::SALES_TYPE_INTERNAL) : ?>
+                    <div class="col-xs-12 col-md-6">
+                        <?= $form->field($model, "s_buyer", ['template' => AppConst::ACTIVE_FORM_TEMPLATE_DEFAULT])
+                            ->textInput(['maxlength' => true, 'class' => 'form-control', 'value' => $registrationModel->patient->p_name])
+                            ->label(null, ['class' => AppConst::ACTIVE_FORM_CLASS_LABEL_COL_3]); ?>
+                    </div>
+                <?php else: ?>
+                    <div class="col-xs-12 col-md-6">
+                        <?= $form->field($model, "s_buyer", ['template' => AppConst::ACTIVE_FORM_TEMPLATE_DEFAULT])
+                            ->dropDownList(\frontend\models\Customer::map('c_name', 'c_name'), ['prompt' => '--Silahkan Pilih--', 'maxlength' => true, 'class' => 'form-control'])
+                            ->label(null, ['class' => AppConst::ACTIVE_FORM_CLASS_LABEL_COL_3]); ?>
+                    </div>
+                <?php endif; ?>
+                <div class="col-xs-12 col-md-6" >
                     <?= $form->field($model, 'total', [
-                        'addon' => ['prepend' => ['content' => 'Rp.']],
-                        'template' => AppConst::ACTIVE_FORM_TEMPLATE_DEFAULT
-                    ])
-                        ->textInput(['maxlength' => true, 'class' => 'no-padding-left form-control text-right', 'readOnly' => true, 'data-formula' => 'SUM(A0:A999)', 'data-cell' => 'X1', 'data-format' => '0,0'])
-                        ->label(null, ['class' => AppConst::ACTIVE_FORM_CLASS_LABEL_COL_3]); ?>
-                </div>
+                    'addon' => ['prepend' => ['content' => 'Rp.']],
+                    'template' => AppConst::ACTIVE_FORM_TEMPLATE_DEFAULT
+                ])
+                    ->textInput(['maxlength' => true, 'class' => 'no-padding-left form-control text-right', 'readOnly' => true, 'data-formula' => 'SUM(A0:A999)', 'data-cell' => 'X1', 'data-format' => '0,0'])
+                    ->label(null, ['class' => AppConst::ACTIVE_FORM_CLASS_LABEL_COL_3]); ?>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <?= $form->field($model, 's_date', ['template' => AppConst::ACTIVE_FORM_TEMPLATE_DEFAULT])
+                    ->widget(
+                        DatePicker::className(), [
+                            'options' => [
+                                'class' => 'form-control'
+                            ],
+                        ]
+                    )
+                    ->label("Tanggal", ['class' => AppConst::ACTIVE_FORM_CLASS_LABEL_COL_3]);
+                ?>
+            </div>
+            <div class="col-md-6">
+                <?= $form->field($model, 's_total_paid', [
+                    'addon' => ['prepend' => ['content' => 'Rp.']],
+                    'template' => AppConst::ACTIVE_FORM_TEMPLATE_DEFAULT
+                ])
+                    ->textInput(['maxlength' => true, 'class' => 'no-padding-left form-control text-right', 'data-cell' => 'Y1'])
+                    ->label(null, ['class' => AppConst::ACTIVE_FORM_CLASS_LABEL_COL_3]); ?>
             </div>
 
-            <div class="row">
-                <div class="col-md-6">
-                    <?= $form->field($model, 's_date', ['template' => AppConst::ACTIVE_FORM_TEMPLATE_DEFAULT])
-                        ->widget(
-                            DatePicker::className(), [
-                                'options' => [
-                                    'class' => 'form-control'
-                                ],
-                            ]
-                        )
-                        ->label("Tanggal", ['class' => AppConst::ACTIVE_FORM_CLASS_LABEL_COL_3]);
-                    ?>
-                </div>
-                <div class="col-md-6">
-                    <?= $form->field($model, 's_total_paid', [
-                        'addon' => ['prepend' => ['content' => 'Rp.']],
-                        'template' => AppConst::ACTIVE_FORM_TEMPLATE_DEFAULT
-                    ])
-                        ->textInput(['maxlength' => true, 'class' => 'no-padding-left form-control text-right', 'data-cell' => 'Y1'])
-                        ->label(null, ['class' => AppConst::ACTIVE_FORM_CLASS_LABEL_COL_3]); ?>
-                </div>
 
-
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <?= $form->field($model, "s_cashier", ['template' => AppConst::ACTIVE_FORM_TEMPLATE_DEFAULT])
-                        ->textInput(['maxlength' => true, 'class' => 'form-control', 'readOnly' => true, 'value' => \frontend\models\Person::findOne(Yii::$app->user->identity->person_id)->name])
-                        ->label(null, ['class' => AppConst::ACTIVE_FORM_CLASS_LABEL_COL_3]); ?>
-                </div>
-
-                <div class="col-md-6">
-                    <?= $form->field($model, 'change', [
-                        'addon' => ['prepend' => ['content' => 'Rp.']],
-                        'template' => AppConst::ACTIVE_FORM_TEMPLATE_DEFAULT
-                    ])
-                        ->textInput(['maxlength' => true, 'class' => 'no-padding-left form-control text-right', 'readOnly' => true, 'data-formula' => 'Y1-X1', 'data-cell' => 'Z1', 'data-format' => '0,0'])
-                        ->label(null, ['class' => AppConst::ACTIVE_FORM_CLASS_LABEL_COL_3]); ?>
-                </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <?= $form->field($model, "s_cashier", ['template' => AppConst::ACTIVE_FORM_TEMPLATE_DEFAULT])
+                    ->textInput(['maxlength' => true, 'class' => 'form-control', 'readOnly' => true, 'value' => \frontend\models\Person::findOne(Yii::$app->user->identity->person_id)->name])
+                    ->label(null, ['class' => AppConst::ACTIVE_FORM_CLASS_LABEL_COL_3]); ?>
             </div>
 
-            <div class="row">
-                <div class="col-md-6 pull-right">
-                    <?= Html::submitButton($model->isNewRecord ? 'Simpan' : 'Ubah', ['class' => $model->isNewRecord ? 'btn btn-block btn-success' : 'btn btn-block btn-primary']) ?>
-                </div>
+            <div class="col-md-6">
+                <?= $form->field($model, 'change', [
+                    'addon' => ['prepend' => ['content' => 'Rp.']],
+                    'template' => AppConst::ACTIVE_FORM_TEMPLATE_DEFAULT
+                ])
+                    ->textInput(['maxlength' => true, 'class' => 'no-padding-left form-control text-right', 'readOnly' => true, 'data-formula' => 'Y1-X1', 'data-cell' => 'Z1', 'data-format' => '0,0'])
+                    ->label(null, ['class' => AppConst::ACTIVE_FORM_CLASS_LABEL_COL_3]); ?>
             </div>
+        </div>
 
+        <div class="row">
+            <div class="col-md-6 pull-right">
+                <?= Html::submitButton($model->isNewRecord ? 'Simpan' : 'Ubah', ['class' => $model->isNewRecord ? 'btn btn-block btn-success' : 'btn btn-block btn-primary']) ?>
+            </div>
         </div>
 
     </div>
+
+</div>
 </div>
 
 <?php ActiveForm::end(); ?>

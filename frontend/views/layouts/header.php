@@ -71,18 +71,18 @@ $brandName = common\components\helpers\AppConst::APP_NAME_PHARMACY;
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Laporan <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="?show=laporan-barang"> Daftar Barang</a></li>
-                            <li><a href="?show=laporan-suplier"> Daftar Suplier</a></li>
-                            <li><a href="?show=laporan-pelanggan"> Daftar Pelanggan</a></li>
+                            <li><?= Html::a("Daftar Barang", ['/report/item-report']); ?></li>
+                            <li><?= Html::a("Daftar Suplier", ['/report/supplier-report']); ?></li>
+                            <li><?= Html::a("Daftar Suplier", ['/report/customer-report']); ?></li>
                             <li class="divider"></li>
-                            <li><a href="?show=laporan-pembelian"> Pembelian Barang</a></li>
-                            <li><a href="?show=laporan-penjualan"> Penjualan Barang External</a></li>
-                            <li><a href="?show=laporan-penjualan-internal"> Penjualan Barang Internal</a></li>
+                            <li><?= Html::a("Pembelian Barang", ['/report/goods-purchase-report']); ?></li>
+                            <li><?= Html::a("Penjualan Barang External", ['/report/sales-external-report']); ?></li>
+                            <li><?= Html::a("Penjualan Barang Internal", ['/report/sales-internal-report']); ?></li>
                             <li class="divider"></li>
-                            <li><a href="?show=laporan-retur-pembelian"> Retur Pembelian</a></li>
-                            <li><a href="?show=laporan-retur-penjualan"> Retur Penjualan</a></li>
+                            <li><?= Html::a("Retur Pembelian", ['/report/goods-purchase-return-report']); ?></li>
+                            <li><?= Html::a("Retur Penjualan", ['/report/sales-return-report']); ?></li>
                             <li class="divider"></li>
-                            <li><a href="?show=laporan-stock-barang"> Stock Barang</a></li>
+                            <li><?= Html::a("Stock Barang", ['/report/item-stock-report']); ?></li>
                         </ul>
                     </li>
                 </ul>

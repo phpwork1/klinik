@@ -108,7 +108,6 @@ class ItemCategory extends \yii\db\ActiveRecord
         $key = empty($key) ? 'id' : $key;
         $value = empty($value) ? 'name' : $value;
         $map = ArrayHelper::map(self::getAll($value, $conditions), $key, $value);
-        $map = array("" => '--Silahkan Pilih--') + $map;
         return $map;
     }
 

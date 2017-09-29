@@ -18,7 +18,7 @@ use yii\jui\DatePicker;
         <div class="row">
             <div class="col-xs-12 col-md-6">
                 <?= $form->field($model, "item_category_id", ['template' => AppConst::ACTIVE_FORM_TEMPLATE_DEFAULT])
-                    ->dropDownList(ItemCategory::map(), ['class' => 'input-big form-control'])
+                    ->dropDownList(ItemCategory::map(), ['class' => 'input-big form-control', 'prompt' => '--Silahkan Pilih--'])
                     ->label(null, ['class' => AppConst::ACTIVE_FORM_CLASS_LABEL_COL_3]); ?>
 
                 <?= $form->field($model, "i_name", ['template' => AppConst::ACTIVE_FORM_TEMPLATE_DEFAULT])

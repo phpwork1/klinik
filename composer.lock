@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "dc77ada461a37c413c34082bc61eee27",
+    "content-hash": "0eb8a3ed955da430ae4882de9341ae20",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -299,6 +299,41 @@
                 "plugins"
             ],
             "time": "2017-08-24T08:08:54+00:00"
+        },
+        {
+            "name": "bower-asset/printThis",
+            "version": "v1.9.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jasonday/printThis.git",
+                "reference": "2ea804980cd76d1583d986e29e3e4e72c4b79c92"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jasonday/printThis/zipball/2ea804980cd76d1583d986e29e3e4e72c4b79c92",
+                "reference": "2ea804980cd76d1583d986e29e3e4e72c4b79c92",
+                "shasum": ""
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": "printThis.js",
+                "bower-asset-ignore": [
+                    "**/.*",
+                    "node_modules",
+                    "bower_components",
+                    "test",
+                    "tests"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Printing plug-in for jQuery",
+            "keywords": [
+                "jQuery",
+                "print"
+            ],
+            "time": "2017-01-17T04:34:47+00:00"
         },
         {
             "name": "bower-asset/punycode",
@@ -2613,6 +2648,53 @@
                 "mailer"
             ],
             "time": "2017-05-20T06:20:27+00:00"
+        },
+        {
+            "name": "yii2assets/yii2-printthis",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Yii2Assets/yii2-print-this.git",
+                "reference": "88e32d42c962c9c39797a3c4a6ee39322c4aa4df"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Yii2Assets/yii2-print-this/zipball/88e32d42c962c9c39797a3c4a6ee39322c4aa4df",
+                "reference": "88e32d42c962c9c39797a3c4a6ee39322c4aa4df",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/printthis": "*",
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "yii2assets\\printthis\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD 3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Manop Kongoon",
+                    "email": "kongoon@gmail.com",
+                    "homepage": "https://www.programmerthailand.com/"
+                }
+            ],
+            "description": "Print html by selector for Yii Framework 2.0",
+            "homepage": "https://github.com/Yii2Assets/yii2-print-this",
+            "keywords": [
+                "PrintThis",
+                "extension",
+                "html",
+                "print",
+                "yii",
+                "yii2"
+            ],
+            "time": "2016-07-29T07:39:15+00:00"
         },
         {
             "name": "yiisoft/yii2",

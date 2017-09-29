@@ -2,13 +2,30 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\bootstrap\Modal;
+use backend\assets\PatientIndexAsset;
 
+PatientIndexAsset::register($this);
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\PatientSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::t('app', 'Pasien');
 $this->params['breadcrumbs'][] = $this->title;
+$actionColumn = Yii::$container->get('yii\grid\ActionColumn');
+$buttons = array_merge($actionColumn->buttons, [
+    'view' => function ($url, $model) {
+        Modal::begin([
+            'id' => 'patientModal' . $model->id,
+            'header' => '<h2>Detail Pasien Berobat' . '</h2>',
+            'size' => Modal::SIZE_LARGE,
+        ]);
+        echo $this->render('patientDetailModal', ['model' => $model]);
+        Modal::end();
+        return Html::a('<i class="glyphicon glyphicon-eye-open"></i>', 'javascript:void(0)', ['id' => $model->id, 'class' => 'patientModalClicked btn-sm btn-info', 'title' => Yii::t('yii', 'Lihat Rincian Untuk item ini.'),]);
+    }
+]);
+
 $this->params['buttons'] = [
     Html::a('<i class="glyphicon glyphicon-plus"></i>', ['create'], [
         'type'=>'button',
@@ -21,7 +38,6 @@ $this->params['buttons'] = [
         'title'=>Yii::t('app', 'Reset Grid')
     ])
 ];
-
 
 
 
@@ -55,6 +71,7 @@ $gridColumns = [
     'p_address',
     'p_contact_number',
     ['class' => 'yii\grid\ActionColumn',
+        'buttons' => $buttons,
         'header' => 'Actions',
         'template' => '{view} {update} {delete}',
         'contentOptions' => ['class' => 'text-nowrap'],

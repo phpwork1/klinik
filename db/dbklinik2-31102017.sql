@@ -11,6 +11,8 @@ MySQL - 5.5.5-10.1.26-MariaDB : Database - dbklinik2
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`dbklinik2` /*!40100 DEFAULT CHARACTER SET latin1 */;
+
 /*Table structure for table `account` */
 
 DROP TABLE IF EXISTS `account`;
@@ -212,12 +214,12 @@ CREATE TABLE `drug_allergies` (
   KEY `FK_drug_allergies_patient` (`patient_id`),
   KEY `FK_drug_allergies_registration` (`registration_id`),
   CONSTRAINT `FK_drug_allergies_patient` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`id`),
-  CONSTRAINT `FK_drug_allergies_registration` FOREIGN KEY (`registration_id`) REFERENCES `registration` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
+  CONSTRAINT `FK_drug_allergies_registration` FOREIGN KEY (`registration_id`) REFERENCES `registration` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
 
 /*Data for the table `drug_allergies` */
 
-insert  into `drug_allergies`(`id`,`patient_id`,`registration_id`,`da_name`) values (26,1,19,'12'),(27,1,16,'1');
+insert  into `drug_allergies`(`id`,`patient_id`,`registration_id`,`da_name`) values (28,7,24,'Obat Sakit Perut');
 
 /*Table structure for table `goods_purchase` */
 
@@ -237,11 +239,52 @@ CREATE TABLE `goods_purchase` (
   UNIQUE KEY `NewIndex1` (`gp_invoice_number`),
   KEY `FK_goods_purchase_supplier` (`supplier_id`),
   CONSTRAINT `FK_goods_purchase_supplier` FOREIGN KEY (`supplier_id`) REFERENCES `supplier` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 /*Data for the table `goods_purchase` */
 
-insert  into `goods_purchase`(`id`,`supplier_id`,`gp_invoice_number`,`gp_date`,`gp_payment_method`,`gp_due_date`,`gp_discount`,`gp_ppn`,`gp_cashier`) values (1,12,'20170904001','2017-09-04',1,'2017-09-04',12,12,'Joshua Saputra'),(2,12,'20170905001','2017-09-05',0,'2017-09-05',12,12,'Joshua Saputra');
+insert  into `goods_purchase`(`id`,`supplier_id`,`gp_invoice_number`,`gp_date`,`gp_payment_method`,`gp_due_date`,`gp_discount`,`gp_ppn`,`gp_cashier`) values (7,10,'20170924001','2017-09-24',0,'2017-09-24',10,10,'Joshua Saputra');
+
+/*Table structure for table `goods_purchase_return` */
+
+DROP TABLE IF EXISTS `goods_purchase_return`;
+
+CREATE TABLE `goods_purchase_return` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `goods_purchase_id` int(11) NOT NULL,
+  `gpr_return_number` varchar(50) NOT NULL,
+  `gpr_date` date NOT NULL,
+  `gpr_supplier_name` varchar(50) DEFAULT NULL,
+  `gpr_total_return` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_goods_purchase_return` (`goods_purchase_id`),
+  CONSTRAINT `FK_goods_purchase_return` FOREIGN KEY (`goods_purchase_id`) REFERENCES `goods_purchase` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+
+/*Data for the table `goods_purchase_return` */
+
+insert  into `goods_purchase_return`(`id`,`goods_purchase_id`,`gpr_return_number`,`gpr_date`,`gpr_supplier_name`,`gpr_total_return`) values (7,7,'20170924001','2017-09-24','Suplier 1',750000);
+
+/*Table structure for table `goods_purchase_return_detail` */
+
+DROP TABLE IF EXISTS `goods_purchase_return_detail`;
+
+CREATE TABLE `goods_purchase_return_detail` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `gp_detail_id` int(11) NOT NULL,
+  `goods_purchase_return_id` int(11) NOT NULL,
+  `gprd_name` varchar(50) NOT NULL,
+  `gprd_quantity` int(8) NOT NULL,
+  `gprd_price` int(8) NOT NULL,
+  `gprd_total` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_goods_purchase_return_detail` (`goods_purchase_return_id`),
+  CONSTRAINT `FK_goods_purchase_return_detail` FOREIGN KEY (`goods_purchase_return_id`) REFERENCES `goods_purchase_return` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
+
+/*Data for the table `goods_purchase_return_detail` */
+
+insert  into `goods_purchase_return_detail`(`id`,`gp_detail_id`,`goods_purchase_return_id`,`gprd_name`,`gprd_quantity`,`gprd_price`,`gprd_total`) values (22,6,7,'Acetin',50,15000,750000);
 
 /*Table structure for table `gp_detail` */
 
@@ -258,12 +301,12 @@ CREATE TABLE `gp_detail` (
   KEY `FK_gp_detail_gp` (`goods_purchase_id`),
   KEY `FK_gp_detail_item` (`item_id`),
   CONSTRAINT `FK_gp_detail_gp` FOREIGN KEY (`goods_purchase_id`) REFERENCES `goods_purchase` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_gp_detail_item` FOREIGN KEY (`item_id`) REFERENCES `item` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+  CONSTRAINT `FK_gp_detail_item` FOREIGN KEY (`item_id`) REFERENCES `item` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 /*Data for the table `gp_detail` */
 
-insert  into `gp_detail`(`id`,`goods_purchase_id`,`item_id`,`gpd_price`,`gpd_quantity`,`gpd_expire_date`) values (2,1,6,12,12,'2017-09-07'),(3,1,2,123,123,'2017-08-09'),(4,2,10,123,123,'2017-09-19');
+insert  into `gp_detail`(`id`,`goods_purchase_id`,`item_id`,`gpd_price`,`gpd_quantity`,`gpd_expire_date`) values (6,7,1,15000,50,'2017-09-20'),(7,7,11,30000,50,'2017-09-20');
 
 /*Table structure for table `item` */
 
@@ -291,11 +334,11 @@ CREATE TABLE `item` (
   PRIMARY KEY (`id`),
   KEY `FK_item_item_category` (`item_category_id`),
   CONSTRAINT `FK_item_item_category` FOREIGN KEY (`item_category_id`) REFERENCES `item_category` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 
 /*Data for the table `item` */
 
-insert  into `item`(`id`,`item_category_id`,`i_name`,`i_barcode`,`i_description`,`i_factory`,`i_buy_price`,`i_sell_price`,`i_ppn`,`i_retail_price`,`i_net_price`,`i_blend_price`,`i_stock_amount`,`i_unit`,`i_stock_min`,`i_stock_max`,`i_blended`,`i_expired_date`) values (1,2,'Barang 1',NULL,'Deskripsi 1','Pabrik 1',11500,15121,1000,10000,1540,15467,100,'Tab',100,120,0,'2017-08-01'),(2,1,'Barang 2',NULL,'123','123',123,32,23,32,23,23,123,'123',23,23,1,'2017-08-09'),(3,1,'Barang 3',NULL,'123','awd',123213,123,123,123,123,123,123,'awd',12,3123,1,'1970-01-01'),(4,1,'12',NULL,'12','12',12,12,12,12,12,12,12,'12',12,12,1,'1970-01-01'),(5,1,'12',NULL,'12','12',12,12,12,12,12,12,12,'12',12,12,1,'2017-09-05'),(6,1,'12',NULL,'12','12',12,12,12,12,12,12,12,'12',12,12,1,'2017-09-07'),(7,1,'12',NULL,'','',12,12,NULL,NULL,NULL,NULL,12,'',NULL,NULL,0,NULL),(8,1,'12',NULL,'12','12',12,12,1212,12,12,1212,12,'12',12,12,1,'2017-09-04'),(9,1,'Barang 4',NULL,'asd','asd',123,123,123123,123,123,123,123,'123',123,123,1,'2017-09-11'),(10,1,'123',NULL,'123','123',123,123,123,123,123,123,123,'123123',123,123,1,'2017-09-19');
+insert  into `item`(`id`,`item_category_id`,`i_name`,`i_barcode`,`i_description`,`i_factory`,`i_buy_price`,`i_sell_price`,`i_ppn`,`i_retail_price`,`i_net_price`,`i_blend_price`,`i_stock_amount`,`i_unit`,`i_stock_min`,`i_stock_max`,`i_blended`,`i_expired_date`) values (1,1,'Acetin',NULL,'Obat Penurun','SANBE',15000,20000,NULL,NULL,NULL,17000,50,'Tab',NULL,NULL,0,'2017-09-20'),(11,1,'Aciblok',NULL,'Obat Peninggi','FARMA',30000,35000,NULL,NULL,NULL,20000,50,'Butir',NULL,NULL,0,'2017-09-20'),(12,3,'Obat Demam',NULL,'Obat Penurun Demam','Buatan Sendiri',50000,70000,NULL,NULL,NULL,50000,10,'Kaplet',NULL,NULL,1,'2017-09-18'),(13,3,'Obat Lambung',NULL,'Lambung Sembuh','Key',45000,65000,NULL,NULL,NULL,50000,40,'Strip',NULL,NULL,1,'2017-09-28');
 
 /*Table structure for table `item_category` */
 
@@ -379,11 +422,11 @@ CREATE TABLE `patient` (
   `p_ref` varchar(150) DEFAULT NULL,
   `p_registration_date` date NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 /*Data for the table `patient` */
 
-insert  into `patient`(`id`,`p_medical_number`,`p_name`,`p_pob`,`p_dob`,`p_gender`,`religion_id`,`p_address`,`p_postal_code`,`p_contact_number`,`job_id`,`patient_id`,`p_ref`,`p_registration_date`) values (1,'P.00001','Pasien 1','Jambi','2023-02-16',0,1,'a',36142,154345,6,NULL,NULL,'2017-08-11'),(2,'P.00002','Passien 2','Jambi','2017-08-10',0,5,'Alamat 1',36142,124621,6,1,NULL,'2017-08-11'),(3,'P.00003','Pasien 3','jambi','2017-08-23',1,1,'1',2,3,6,1,NULL,'2017-08-22'),(4,'P.00004','Pasien 4','jmaib','2017-08-22',0,1,'12',3,4,6,1,NULL,'2017-08-22'),(5,'P.00005','Pasien 5','as','2017-08-09',0,1,'21',12,12,6,1,NULL,'2017-08-23'),(6,'P.00006','Pasien 6','a','2017-08-22',0,1,'12',12,12,6,1,NULL,'2017-08-23');
+insert  into `patient`(`id`,`p_medical_number`,`p_name`,`p_pob`,`p_dob`,`p_gender`,`religion_id`,`p_address`,`p_postal_code`,`p_contact_number`,`job_id`,`patient_id`,`p_ref`,`p_registration_date`) values (7,'J.00001','JOSHUA','Jambi','1995-07-01',0,1,'Jalan di Jambi',36142,2147483647,5,NULL,NULL,'2017-09-24');
 
 /*Table structure for table `person` */
 
@@ -480,12 +523,12 @@ CREATE TABLE `r_consultation` (
   `c_control_days` int(5) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_r_consultation_registration` (`registration_id`),
-  CONSTRAINT `FK_r_consultation_registration` FOREIGN KEY (`registration_id`) REFERENCES `registration` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
+  CONSTRAINT `FK_r_consultation_registration` FOREIGN KEY (`registration_id`) REFERENCES `registration` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
 
 /*Data for the table `r_consultation` */
 
-insert  into `r_consultation`(`id`,`registration_id`,`c_history`,`c_td_value`,`c_pr_value`,`c_t_value`,`c_rr_value`,`c_description`,`c_support`,`c_control_days`) values (1,5,'12345667','123','12','123','123','123','123',NULL),(2,6,'123','123','123','123','123','123','123',123),(3,8,'','123','123','123','123','123','123',123),(4,10,'12','','','','','','',NULL),(5,11,'Batuk','12','14','16','18','Diperiksa','Pemeriksaan kedua',50),(6,15,'12','12','12','12','12','12','12',12),(7,16,'123','12','12','12','12','12','12',12),(8,18,'12','12','12','12','12','12','12',12),(9,19,'12','12','12','12','12','12','12',12),(10,19,'123','12','12','12','12','12','12',12),(11,19,'123','12','12','12','12','123','12',12),(12,19,'123','12','12','12','12','1234','12',12),(13,19,'1234','12','12','12','12','1234','12',12),(14,19,'12345','12','12','12','12','1234','12',12),(15,19,'123456','12','12','12','12','1234','12',12),(16,19,'1234567','12','12','12','12','1234','12',12),(17,19,'12345674','12','12','12','12','1234','12',12),(18,19,'12345674','12','12','12','12','1234','12',12),(19,19,'12345674','12','12','12','12','1234','12',12),(20,19,'12345674','12','12','12','12','12345','12',12);
+insert  into `r_consultation`(`id`,`registration_id`,`c_history`,`c_td_value`,`c_pr_value`,`c_t_value`,`c_rr_value`,`c_description`,`c_support`,`c_control_days`) values (21,24,'Tidak Terjaid apa apa','15','30','45','60','Telah Diperiksa ini','dan itu',50);
 
 /*Table structure for table `r_diagnosis` */
 
@@ -497,12 +540,12 @@ CREATE TABLE `r_diagnosis` (
   `rd_name` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_r_diagnosis_registration` (`registration_id`),
-  CONSTRAINT `FK_r_diagnosis_registration` FOREIGN KEY (`registration_id`) REFERENCES `registration` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+  CONSTRAINT `FK_r_diagnosis_registration` FOREIGN KEY (`registration_id`) REFERENCES `registration` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 
 /*Data for the table `r_diagnosis` */
 
-insert  into `r_diagnosis`(`id`,`registration_id`,`rd_name`) values (1,16,'12'),(2,16,'13'),(3,18,'diagnosis 1'),(6,19,'13'),(8,19,'12'),(9,16,'1'),(10,16,'15'),(11,16,'213');
+insert  into `r_diagnosis`(`id`,`registration_id`,`rd_name`) values (12,24,'Sakit Perut');
 
 /*Table structure for table `r_doctor_action` */
 
@@ -516,12 +559,12 @@ CREATE TABLE `r_doctor_action` (
   PRIMARY KEY (`id`),
   KEY `FK_r_doctor_action_registration` (`registration_id`),
   KEY `FK_r_doctor_action_practice_action` (`rda_name`),
-  CONSTRAINT `FK_r_doctor_action_registration` FOREIGN KEY (`registration_id`) REFERENCES `registration` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+  CONSTRAINT `FK_r_doctor_action_registration` FOREIGN KEY (`registration_id`) REFERENCES `registration` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 
 /*Data for the table `r_doctor_action` */
 
-insert  into `r_doctor_action`(`id`,`registration_id`,`rda_name`,`rda_price`) values (6,11,'SUNTIKAN B',40000),(7,16,'SUNTIKAN B',40000),(8,16,'SUNTIKAN B',40000),(9,18,'SUNTIKAN B',40000),(13,19,'SUNTIKAN B',1240000),(14,19,'SUNTIKAN B',1240000),(15,16,'SUNTIKAN B',40000);
+insert  into `r_doctor_action`(`id`,`registration_id`,`rda_name`,`rda_price`) values (16,24,'SUNTIKAN B',40000);
 
 /*Table structure for table `r_medicine` */
 
@@ -539,13 +582,13 @@ CREATE TABLE `r_medicine` (
   PRIMARY KEY (`id`),
   KEY `FK_r_medicine_registration` (`registration_id`),
   KEY `FK_r_medicine_item` (`item_id`),
-  CONSTRAINT `FK_r_medicine_item` FOREIGN KEY (`item_id`) REFERENCES `item` (`id`),
-  CONSTRAINT `FK_r_medicine_registration` FOREIGN KEY (`registration_id`) REFERENCES `registration` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=95 DEFAULT CHARSET=latin1;
+  CONSTRAINT `FK_r_medicine_item` FOREIGN KEY (`item_id`) REFERENCES `item` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_r_medicine_registration` FOREIGN KEY (`registration_id`) REFERENCES `registration` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=97 DEFAULT CHARSET=latin1;
 
 /*Data for the table `r_medicine` */
 
-insert  into `r_medicine`(`id`,`registration_id`,`item_id`,`rmr_amount`,`rmr_dosage_1`,`rmr_dosage_2`,`rmr_dosage_3`,`rmr_ref`) values (27,10,1,123,'12','12','12','12'),(29,10,1,123,'12','12','12','12'),(30,10,1,12,'12','12','12','12'),(31,10,2,123,'12','12','12','12'),(32,10,2,3,'2','2','3','2'),(52,11,1,12,'3','3','Sehari','Cepat Diminum'),(53,11,2,12,'3','3','Abiskan','Abiskan Obat'),(54,12,1,12,'12','12','12','12'),(55,12,2,12,'12','12','12','12'),(56,12,2,12,'12','12','12','12'),(57,12,2,12,'12','12','12','12'),(58,15,2,12,'12','12','12','12'),(59,15,2,12,'12','12','12','12'),(60,15,2,12,'12','12','12','12'),(61,16,1,12,'12','12','12','12'),(62,16,2,12,'12','12','12','12'),(63,16,2,12,'12','12','12','12'),(64,16,2,12,'12','12','12','12'),(65,18,2,10,'3','3','sehari','Habiskan'),(81,18,1,12,'','','',''),(82,19,1,12,'12','12','12','12'),(83,19,1,1212,'12','12','12','12'),(87,19,2,12,'12','12','12','12'),(88,19,2,12,'12','12','12','12'),(90,19,3,12,'12','12','1','12'),(91,20,2,12,'12','12','12','12'),(92,16,7,123,'123','123','123','123'),(93,16,2,123,'123','123','123','123'),(94,21,4,12,'12','12','12','12');
+insert  into `r_medicine`(`id`,`registration_id`,`item_id`,`rmr_amount`,`rmr_dosage_1`,`rmr_dosage_2`,`rmr_dosage_3`,`rmr_ref`) values (94,24,1,15,'3','3','Sehari','Habiskan'),(95,24,12,10,'3','3','Seminggu','Habikan Juga'),(96,24,13,30,'4','4','Sebulan','Asd');
 
 /*Table structure for table `regency` */
 
@@ -584,11 +627,11 @@ CREATE TABLE `registration` (
   UNIQUE KEY `NewIndex1` (`r_number`,`r_date`),
   KEY `FK_registration_patient` (`patient_id`),
   CONSTRAINT `FK_registration_patient` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
 
 /*Data for the table `registration` */
 
-insert  into `registration`(`id`,`patient_id`,`r_number`,`r_date`,`r_patient_weight`,`r_patient_tension`,`r_patient_temp`,`r_complaint`,`r_position`,`r_checked`,`r_paid`) values (2,2,'000002','2017-08-16',1234,1234,1234,'1234',0,0,0),(4,1,'000003','2017-08-16',123,123,123,'123',0,0,0),(5,2,'000004','2017-08-17',123123,123,123,'123',0,0,0),(6,1,'000001','2017-08-18',123123,12,123,'123',0,0,0),(8,1,'000001','2017-08-19',1212,12,12,'12',0,0,0),(9,2,'000002','2017-08-19',123123,123,123,'123',0,0,0),(10,2,'000001','2017-08-20',123123,213,213,'123',0,0,0),(11,1,'000001','2017-08-21',123,12,12,'12',0,0,0),(12,1,'000001','2017-08-22',123123,12,12,'12',1,1,0),(13,1,'000002','2017-08-22',123,12,1234,'12',0,1,0),(15,1,'000001','2017-08-23',121,12,12,'12',0,1,0),(16,1,'000002','2017-08-23',12,12,12,'12',0,1,0),(17,1,'000003','2017-08-23',12,12,12,'12',0,0,0),(18,1,'000001','2017-08-24',12112,12,12,'12',0,1,0),(19,1,'000001','2017-08-25',121,12,12,'12',0,1,0),(20,1,'000001','2017-09-04',121,12,12,'12',0,0,0),(21,1,'000001','2017-09-11',1211212,12,12,'12',0,0,0),(22,1,'000001','2017-10-12',NULL,NULL,NULL,'',0,0,0);
+insert  into `registration`(`id`,`patient_id`,`r_number`,`r_date`,`r_patient_weight`,`r_patient_tension`,`r_patient_temp`,`r_complaint`,`r_position`,`r_checked`,`r_paid`) values (24,7,'000001','2017-09-24',80,120,37,'Sakit sakit',0,1,1);
 
 /*Table structure for table `religion` */
 
@@ -625,7 +668,7 @@ CREATE TABLE `rm_detail` (
 
 /*Data for the table `rm_detail` */
 
-insert  into `rm_detail`(`id`,`registration_id`,`r_medicine_id`,`item_id`,`rmd_amount`) values (14,11,53,1,12),(15,15,58,1,12),(16,15,58,1,12),(20,19,87,1,1234),(21,19,87,1,12),(22,19,87,1,123),(23,19,88,1,12),(24,19,87,1,12),(25,19,90,1,12),(26,19,90,1,12),(27,19,90,1,12),(28,20,91,1,1234),(29,20,91,7,12),(30,16,93,1,123),(31,21,94,1,12);
+insert  into `rm_detail`(`id`,`registration_id`,`r_medicine_id`,`item_id`,`rmd_amount`) values (31,24,95,1,20);
 
 /*Table structure for table `role` */
 
@@ -651,10 +694,13 @@ CREATE TABLE `sales` (
   `s_buyer` varchar(50) NOT NULL,
   `s_cashier` varchar(50) DEFAULT NULL,
   `s_total_paid` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `NewIndex1` (`s_invoice_number`)
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
 
 /*Data for the table `sales` */
+
+insert  into `sales`(`id`,`s_invoice_number`,`s_date`,`s_buyer`,`s_cashier`,`s_total_paid`) values (24,'20170924002','2017-09-24','JOSHUA','Joshua Saputra',30000000),(25,'20170927001','2017-09-27','Pelanggan 1','Joshua Saputra',1000000);
 
 /*Table structure for table `sales_detail` */
 
@@ -665,15 +711,77 @@ CREATE TABLE `sales_detail` (
   `sales_id` int(11) NOT NULL,
   `item_id` int(11) NOT NULL,
   `sd_quantity` int(8) NOT NULL,
-  `sd_discount` int(3) NOT NULL,
+  `sd_discount` int(3) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_es_detail_item` (`item_id`),
   KEY `FK_es_detail_external_sales` (`sales_id`),
-  CONSTRAINT `FK_es_detail_external_sales` FOREIGN KEY (`sales_id`) REFERENCES `sales` (`id`),
-  CONSTRAINT `FK_es_detail_item` FOREIGN KEY (`item_id`) REFERENCES `item` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  CONSTRAINT `FK_es_detail_external_sales` FOREIGN KEY (`sales_id`) REFERENCES `sales` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_es_detail_item` FOREIGN KEY (`item_id`) REFERENCES `item` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=latin1;
 
 /*Data for the table `sales_detail` */
+
+insert  into `sales_detail`(`id`,`sales_id`,`item_id`,`sd_quantity`,`sd_discount`) values (76,24,1,15,NULL),(77,24,12,10,NULL),(78,24,13,30,NULL),(79,25,11,50,50);
+
+/*Table structure for table `sales_detail_internal` */
+
+DROP TABLE IF EXISTS `sales_detail_internal`;
+
+CREATE TABLE `sales_detail_internal` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `sales_detail_id` int(11) NOT NULL,
+  `r_medicine_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_sales_detail_internal` (`sales_detail_id`),
+  KEY `FK_sales_detail_internal_r_medicine` (`r_medicine_id`),
+  CONSTRAINT `FK_sales_detail_internal` FOREIGN KEY (`sales_detail_id`) REFERENCES `sales_detail` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_sales_detail_internal_r_medicine` FOREIGN KEY (`r_medicine_id`) REFERENCES `r_medicine` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=latin1;
+
+/*Data for the table `sales_detail_internal` */
+
+insert  into `sales_detail_internal`(`id`,`sales_detail_id`,`r_medicine_id`) values (60,76,94),(61,77,95),(62,78,96);
+
+/*Table structure for table `sales_return` */
+
+DROP TABLE IF EXISTS `sales_return`;
+
+CREATE TABLE `sales_return` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `sales_id` int(11) NOT NULL,
+  `sr_return_number` varchar(50) NOT NULL,
+  `sr_date` date NOT NULL,
+  `sr_buyer` varchar(50) NOT NULL,
+  `sr_total_return` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_sales_return` (`sales_id`),
+  CONSTRAINT `FK_sales_return` FOREIGN KEY (`sales_id`) REFERENCES `sales` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+/*Data for the table `sales_return` */
+
+insert  into `sales_return`(`id`,`sales_id`,`sr_return_number`,`sr_date`,`sr_buyer`,`sr_total_return`) values (5,24,'20170924002','2017-09-24','JOSHUA',3700000);
+
+/*Table structure for table `sales_return_detail` */
+
+DROP TABLE IF EXISTS `sales_return_detail`;
+
+CREATE TABLE `sales_return_detail` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `sales_detail_id` int(11) NOT NULL,
+  `sales_return_id` int(11) NOT NULL,
+  `srd_name` varchar(50) NOT NULL,
+  `srd_quantity` int(8) NOT NULL,
+  `srd_price` int(8) NOT NULL,
+  `srd_total` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_sales_return_detail` (`sales_return_id`),
+  CONSTRAINT `FK_sales_return_detail` FOREIGN KEY (`sales_return_id`) REFERENCES `sales_return` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+
+/*Data for the table `sales_return_detail` */
+
+insert  into `sales_return_detail`(`id`,`sales_detail_id`,`sales_return_id`,`srd_name`,`srd_quantity`,`srd_price`,`srd_total`) values (9,76,5,'Acetin',15,20000,300000),(11,78,5,'Obat Lambung',30,0,0),(12,77,5,'Obat Demam',10,340000,3400000);
 
 /*Table structure for table `sales_type` */
 
@@ -686,11 +794,13 @@ CREATE TABLE `sales_type` (
   PRIMARY KEY (`id`),
   KEY `FK_sales_type_sales` (`sales_id`),
   KEY `FK_sales_type_registration` (`registration_id`),
-  CONSTRAINT `FK_sales_type_registration` FOREIGN KEY (`registration_id`) REFERENCES `registration` (`id`),
-  CONSTRAINT `FK_sales_type_sales` FOREIGN KEY (`sales_id`) REFERENCES `sales` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  CONSTRAINT `FK_sales_type_registration` FOREIGN KEY (`registration_id`) REFERENCES `registration` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_sales_type_sales` FOREIGN KEY (`sales_id`) REFERENCES `sales` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 /*Data for the table `sales_type` */
+
+insert  into `sales_type`(`id`,`sales_id`,`registration_id`) values (9,24,24);
 
 /*Table structure for table `supplier` */
 
@@ -708,7 +818,7 @@ CREATE TABLE `supplier` (
 
 /*Data for the table `supplier` */
 
-insert  into `supplier`(`id`,`s_name`,`s_address`,`s_phone_number`,`s_contact_person`,`s_file`) values (10,'Suplier 1','Alamat 1',812,'Rudi',''),(11,'Supplier 4','123',123,'123',''),(12,'Suplier 5','awda',1231,'daw','');
+insert  into `supplier`(`id`,`s_name`,`s_address`,`s_phone_number`,`s_contact_person`,`s_file`) values (10,'Suplier 1','Alamat 1',812,'Rudi',''),(12,'Suplier 5','awda',1231,'daw','');
 
 /*Table structure for table `user` */
 
